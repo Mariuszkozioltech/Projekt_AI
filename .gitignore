@@ -10,3 +10,8 @@ venv/
 .DS_Store
 Thumbs.db
  2fc345c (Aktualizacja plików projektu)
+# Ignoruj katalogi cache Pythona
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
