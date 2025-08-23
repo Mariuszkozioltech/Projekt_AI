@@ -12,6 +12,6 @@ python main.py
 python backend_api/main.py
 
 ## Autor
-Mariusz Koziol  
+Mariusz Koziol Polska  
 📧 mariusz.koziol.tech@outlook.com
 2fc345c (Aktualizacja plików projektu)
