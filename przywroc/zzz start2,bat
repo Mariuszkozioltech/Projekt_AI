@@ -1,0 +1,221 @@
+@echo off
+:: start.bat — uniwersalny skrypt backupu, przywracania, analizy oraz hashów
+:: Autor: [Twój zespół/projekt]
+:: Opis: Kompleksowy i stabilny system backupowy na Windows (PL), pełna dokumentacja w komentarzach
+
+CHCP 65001 >nul
+setlocal EnableExtensions EnableDelayedExpansion
+
+:: ------------------------------------------------------------------
+:: KONFIGURACJA domyślna (edytuj poniższe zmienne do własnych potrzeb)
+set "BACKUP_DIR=%~dp0backup"
+set "SOURCE_DIR=C:\DoBackupu"
+set "RESTORE_DIR=C:\Przywroc"
+set "LOG_DIR=%~dp0logi"
+set "ANALYSIS_DIR=%~dp0backup"
+:: Uwaga: Można przekonfigurować powyższe zmienne według własnych katalogów
+
+:: Tworzenie katalogów na potrzeby logów i backupu
+if not exist "%BACKUP_DIR%" mkdir "%BACKUP_DIR%"
+if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
+
+:: ------------------------------------------------------------------
+:MENU
+cls
+echo.
+echo ==========================
+echo    SYSTEM BACKUPOWY v1
+echo ==========================
+echo.
+echo 1) Backup danych
+echo 2) Przywracanie danych
+echo 3) Analiza logów backupu
+echo 4) Hashowanie pliku
+echo 5) Konfiguracja katalogów
+echo 6) Otwórz foldery
+echo 0) Wyjście
+
+echo.
+set /p CHOICE="Wybierz operację (0-6): "
+if "!CHOICE!"=="1" goto BACKUP
+if "!CHOICE!"=="2" goto RESTORE
+if "!CHOICE!"=="3" goto ANALYZA
+if "!CHOICE!"=="4" goto HASH
+if "!CHOICE!"=="5" goto KONFIG
+if "!CHOICE!"=="6" goto FOLDERY
+if "!CHOICE!"=="0" goto KONIEC
+
+echo Błędny wybór, spróbuj ponownie.
+timeout /t 1 >nul
+goto MENU
+
+:: ------------------------------------------------------------------
+:BACKUP
+cls
+echo --- BACKUP DANYCH ---
+echo Katalog źródłowy: %SOURCE_DIR%
+echo Katalog docelowy:  %BACKUP_DIR%
+set "BACKUP_TIMESTAMP=%DATE:/=-%_%TIME::=-%"
+set "LOGFILE=%LOG_DIR%\backup_%BACKUP_TIMESTAMP%.log"
+
+echo Rozpoczynam backup... (robocopy)
+robocopy "%SOURCE_DIR%" "%BACKUP_DIR%" /MIR /E /Z /W:5 /R:3 /TEE /LOG+:"%LOGFILE%"
+set ERRLVL=%ERRORLEVEL%
+echo Backup zakończony z kodem %ERRLVL%. Data: %DATE% %TIME% >> "%LOGFILE%"
+if %ERRLVL% GEQ 8 (
+    echo [BŁĄD] Backup zakończony z błędem. Sprawdź log: %LOGFILE%
+) else (
+    echo Backup zakończony sukcesem. Log: %LOGFILE%
+)
+pause
+goto MENU
+
+:: ------------------------------------------------------------------
+:RESTORE
+cls
+echo --- PRZYWRACANIE DANYCH ---
+echo Docelowy katalog: %RESTORE_DIR%
+if not exist "%RESTORE_DIR%" mkdir "%RESTORE_DIR%"
+echo Przywrócić z:
+echo 1) Ostatniego backupu (%BACKUP_DIR%)
+echo 2) Wybrać inną ścieżkę
+echo q) Powrót
+
+set /p RCH="Wybierz opcję: "
+if /i "!RCH!"=="1" (
+    set "SRC_RESTORE=%BACKUP_DIR%"
+) else if /i "!RCH!"=="2" (
+    set /p SRC_RESTORE="Podaj katalog źródłowy backupu: "
+    if not exist "!SRC_RESTORE!" (
+        echo Podany katalog nie istnieje.
+        pause
+        goto RESTORE
+    )
+) else (
+    goto MENU
+)
+
+set "REST_TIMESTAMP=%DATE:/=-%_%TIME::=-%"
+set "LOGFILE=%LOG_DIR%\restore_%REST_TIMESTAMP%.log"
+echo Rozpoczynam przywracanie... (robocopy)
+robocopy "!SRC_RESTORE!" "%RESTORE_DIR%" /E /Z /W:5 /R:3 /TEE /LOG+:"%LOGFILE%"
+set ERRLVL=%ERRORLEVEL%
+echo Restore zakończony z kodem %ERRLVL%. Data: %DATE% %TIME% >> "%LOGFILE%"
+if %ERRLVL% GEQ 8 (
+    echo [BŁĄD] Przywracanie z błędem. Sprawdź log: %LOGFILE%
+) else (
+    echo Przywracanie zakończone sukcesem. Log: %LOGFILE%
+)
+pause
+goto MENU
+
+:: ------------------------------------------------------------------
+:ANALYZA
+cls
+echo --- ANALIZA LOGÓW ---
+dir "%LOG_DIR%\backup_*.log" /b
+set /p ANLFILE="Podaj nazwę pliku logu do analizy lub ENTER (najnowszy): "
+if "!ANLFILE!"=="" (
+    for /f "delims=" %%f in ('dir /b /o-d "%LOG_DIR%\backup_*.log"') do (
+        set "ANLFILE=%%f"
+        goto ANA1
+    )
+)
+:ANA1
+if not exist "%LOG_DIR%\!ANLFILE!" (
+    echo Log !ANLFILE! nie istnieje.
+    pause
+    goto MENU
+)
+echo --- Podsumowanie logu !ANLFILE! ---
+findstr /i /c:"ERROR" "%LOG_DIR%\!ANLFILE!"
+findstr /i /c:"copied" "%LOG_DIR%\!ANLFILE!"
+findstr /i /c:"Extra" "%LOG_DIR%\!ANLFILE!"
+echo Pełny log: "%LOG_DIR%\!ANLFILE!"
+pause
+goto MENU
+
+:: ------------------------------------------------------------------
+:HASH
+cls
+echo --- HASHOWANIE PLIKU ---
+set /p HASHFILE="Podaj ścieżkę do pliku: "
+if not exist "!HASHFILE!" (
+    echo Plik nie istnieje: !HASHFILE!
+    pause
+    goto MENU
+)
+echo Wybierz algorytm hashujący:
+echo 1) MD5
+echo 2) SHA1
+echo 3) SHA256
+set /p HASHTYPE="Twój wybór: "
+if "!HASHTYPE!"=="1" set "ALG=MD5"
+if "!HASHTYPE!"=="2" set "ALG=SHA1"
+if "!HASHTYPE!"=="3" set "ALG=SHA256"
+if not defined ALG (
+    echo Błędny wybór.
+    pause
+    goto MENU
+)
+echo Obliczanie %ALG%...
+certutil -hashfile "!HASHFILE!" !ALG!
+if %ERRORLEVEL% NEQ 0 (
+    echo [BŁĄD] Blad certutil.
+)
+pause
+goto MENU
+
+:: ------------------------------------------------------------------
+:KONFIG
+cls
+echo --- KONFIGURACJA KATALOGÓW ---
+echo Aktualne ścieżki:
+echo 1) Backup:     %BACKUP_DIR%
+echo 2) Źródło:     %SOURCE_DIR%
+echo 3) Restore do: %RESTORE_DIR%
+echo 4) Logi:       %LOG_DIR%
+echo X) Powrót
+set /p KONFVAL="Wpisz numer do zmiany lub X: "
+if /i "!KONFVAL!"=="1" set /p "BACKUP_DIR=Nowa sciezka (backup): "
+if /i "!KONFVAL!"=="2" set /p "SOURCE_DIR=Nowa sciezka (źródło): "
+if /i "!KONFVAL!"=="3" set /p "RESTORE_DIR=Nowa sciezka: "
+if /i "!KONFVAL!"=="4" set /p "LOG_DIR=Nowa sciezka logów: "
+if /i "!KONFVAL!"=="X" goto MENU
+goto KONFIG
+
+:: ------------------------------------------------------------------
+:FOLDERY
+cls
+echo --- OTWIERANIE FOLDERÓW ---
+echo 1) Otwórz katalog backupu
+echo 2) Otwórz katalog źródłowy
+echo 3) Otwórz katalog logów
+echo 4) Otwórz katalog restore
+echo x) Powrót
+set /p FVAL="Wybierz: "
+if "!FVAL!"=="1" start "" "%BACKUP_DIR%" 
+if "!FVAL!"=="2" start "" "%SOURCE_DIR%"
+if "!FVAL!"=="3" start "" "%LOG_DIR%"
+if "!FVAL!"=="4" start "" "%RESTORE_DIR%"
+if /i "!FVAL!"=="x" goto MENU
+goto FOLDERY
+
+:: ------------------------------------------------------------------
+:KONIEC
+echo.
+echo Dziękujemy za korzystanie z systemu backupowego.
+echo Do zobaczenia!
+timeout /t 2 >nul
+exit /b 0
+
+:: --- KONIEC SKRYPTU ---
+
+rem UWAGI:
+rem - Skrypt w pełni kompatybilny z Windows 10/11 PL, obsługuje polskie znaki, kodowanie UTF-8.
+rem - Wszystkie katalogi można dynamicznie zmieniać z poziomu menu KONFIG.
+rem - Mechanizm robocopy oraz certutil dostępny domyślnie od Windows 7+.
+rem - Operacje logowania wykonują się do oddzielnych plików per zadanie.
+rem - Wszystkie dane wejściowe są walidowane na poziomie istnienia ścieżek.
+rem - Zalecane: otwierać i edytować plik .bat w Notepad++ jako UTF-8 bez BOM.
+rem - Dalszą rozbudowę można realizować przez dodawanie nowych funkcji.

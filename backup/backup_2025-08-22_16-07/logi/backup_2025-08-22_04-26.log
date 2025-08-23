@@ -1,0 +1,122 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : pitek, 22 sierpnia 2025 04:26:46
+   Source : C:\Projekt_AI\
+     Dest : C:\Projekt_AI\backup\backup_2025-08-22_04-26\
+
+    Files : *.*
+	    
+ Exc Dirs : C:\Projekt_AI\backup
+	    C:\Projekt_AI\multimedia
+	    
+  Options : *.* /TEE /S /E /DCOPY:AT /COPY:DAT /PURGE /MIR /R:3 /W:5 
+
+------------------------------------------------------------------------------
+
+	                   5	C:\Projekt_AI\
+	    New File  		      81	cleanup.bat100%  
+	    New File  		    1759	cleanup.ps1100%  
+	    New File  		    8909	start.bat100%  
+	    New File  		    6851	zzz start2,bat100%  
+	    New File  		    5802	zzz startstary.bat100%  
+	  New Dir          0	C:\Projekt_AI\dane_analizy\
+	  New Dir          0	C:\Projekt_AI\dokumentacja\
+	  New Dir          0	C:\Projekt_AI\komunikacja\
+	  New Dir          3	C:\Projekt_AI\logi\
+	    New File  		    6791	backup_2025-08-22_04-07.log100%  
+	    New File  		   17999	backup_2025-08-22_04-25.log100%  
+	    New File  		       0	backup_2025-08-22_04-26.log100%  
+	  New Dir          2	C:\Projekt_AI\praca\
+	    New File  		       0	7277772752.txt
+	    New File  		       0	fgsfghdfghdfghdfhdhfhdfhdfhsdfhdf.txt
+	  New Dir          0	C:\Projekt_AI\PROJEKT\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\AI_trening\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\AI_trening\notatki\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\AI_trening\przyklady\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\backup\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\backup\pelne\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\backup\start\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\dom\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\dom\czujniki\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\dom\garaz_ogrod\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\dom\glosniki\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\dom\kamery\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\dom\swiatla\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\komunikacja\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\komunikacja\powiadomienia\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\komunikacja\skrypty\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\praca\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\praca\projekty\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\praca\raporty\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\materiaˆy\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\raporty\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\zdjecia_i_filmy\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\zdjecia_i_filmy\albumy_z_opisami\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\zdjecia_i_filmy\wycieczki\
+	  New Dir          0	C:\Projekt_AI\PROJEKT\zdjecia_i_filmy\wydarzenia\
+	  New Dir          5	C:\Projekt_AI\przywroc\
+	    New File  		      81	cleanup.bat100%  
+	    New File  		    1759	cleanup.ps1100%  
+	    New File  		    6133	start.bat100%  
+	    New File  		    6851	zzz start2,bat100%  
+	    New File  		    5802	zzz startstary.bat100%  
+	  New Dir          0	C:\Projekt_AI\przywroc\dane_analizy\
+	  New Dir          0	C:\Projekt_AI\przywroc\dokumentacja\
+	  New Dir          0	C:\Projekt_AI\przywroc\komunikacja\
+	  New Dir          3	C:\Projekt_AI\przywroc\logi\
+	    New File  		    3893	backup_2025-08-22_ 0-33.log100%  
+	    New File  		       0	backup_2025-08-22_00 25%   50%   75%  100%  
+	    New File  		    1297	backup_2025-08-22_01-33.log100%  
+	  New Dir          2	C:\Projekt_AI\przywroc\praca\
+	    New File  		       0	7277772752.txt
+	    New File  		       0	fgsfghdfghdfghdfhdhfhdfhdfhsdfhdf.txt
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\AI_trening\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\AI_trening\notatki\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\AI_trening\przyklady\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\backup\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\backup\pelne\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\backup\start\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\dom\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\dom\czujniki\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\dom\garaz_ogrod\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\dom\glosniki\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\dom\kamery\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\dom\swiatla\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\komunikacja\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\komunikacja\powiadomienia\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\komunikacja\skrypty\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\praca\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\praca\projekty\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\praca\raporty\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\strategia_inwestycyjna\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\strategia_inwestycyjna\materiaˆy\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\strategia_inwestycyjna\raporty\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\zdjecia_i_filmy\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\zdjecia_i_filmy\albumy_z_opisami\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\zdjecia_i_filmy\wycieczki\
+	  New Dir          0	C:\Projekt_AI\przywroc\PROJEKT\zdjecia_i_filmy\wydarzenia\
+	  New Dir          0	C:\Projekt_AI\przywroc\przywroc\
+	  New Dir          0	C:\Projekt_AI\przywroc\scenariusze\
+	  New Dir          0	C:\Projekt_AI\przywroc\strategia\
+	  New Dir          0	C:\Projekt_AI\scenariusze\
+	  New Dir          0	C:\Projekt_AI\strategia\
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :        71        68         3         0         0         0
+   Files :        20        20         0         0         0         0
+   Bytes :    72.2 k    72.2 k         0         0         0         0
+   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
+
+
+   Speed :           10 572 571 Bytes/sec.
+   Speed :              604,967 MegaBytes/min.
+   Ended : pitek, 22 sierpnia 2025 04:26:46
+
+[22.08.2025  4:26:46,98] Backup zakoï¿½czony z kodem 1 

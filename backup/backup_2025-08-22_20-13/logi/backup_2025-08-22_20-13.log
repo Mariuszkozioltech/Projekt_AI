@@ -1,0 +1,47 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : pitek, 22 sierpnia 2025 20:13:46
+   Source : C:\Projekt_AI\
+     Dest : C:\Projekt_AI\backup\backup_2025-08-22_20-13\
+
+    Files : *.*
+	    
+ Exc Dirs : C:\Projekt_AI\backup
+	    C:\Projekt_AI\multimedia
+	    
+  Options : *.* /TEE /S /E /DCOPY:AT /COPY:DAT /PURGE /MIR /R:3 /W:5 
+
+------------------------------------------------------------------------------
+
+	                   5	C:\Projekt_AI\
+	    New File  		    5754	B_asystent.py100%  
+	    New File  		      81	cleanup.bat100%  
+	    New File  		    1759	cleanup.ps1100%  
+	    New File  		     199	config.json100%  
+	    New File  		   11541	start.bat100%  
+	  New Dir         14	C:\Projekt_AI\Archiwum\
+	    New File  		      72	2025-08-22_17-01_kopiuj.md100%  
+	    New File  		     196	2025-08-22_17-11_kopiuj.md100%  
+	    New File  		      77	2025-08-22_17-18_kopiuj.md100%  
+	    New File  		      77	2025-08-22_17-40-31_kopiuj.md100%  
+	    New File  		      77	2025-08-22_17-48-43_kopiuj.md100%  
+	    New File  		     134	2025-08-22_18-09-15_kopiuj.md100%  
+	    New File  		     183	2025-08-22_18-09-22_kopiuj.md100%  
+	    New File  		     233	2025-08-22_18-09-30_kopiuj.md100%  
+	    New File  		     291	2025-08-22_18-12-57_kopiuj.md100%  
+	    New File  		     354	2025-08-22_18-17-45_kopiuj.md100%  
+	    New File  		     409	2025-08-22_18-42-19_kopiuj.md100%  
+	    New File  		     466	2025-08-22_18-42-27_kopiuj.md100%  
+	    New File  		     466	2025-08-22_18-45-51_kopiuj.md100%  
+	    New File  		     524	2025-08-22_18-46-01_kopiuj.md100%  
+	  New Dir          0	C:\Projekt_AI\dane_analizy\
+	  New Dir          0	C:\Projekt_AI\dokumentacja\
+	  New Dir          0	C:\Projekt_AI\komunikacja\
+	  New Dir          4	C:\Projekt_AI\logi\
+	    New File  		   12778	backup_2025-08-22_16-07.log100%  
+	    New File  		    7649	backup_2025-08-22_18-45.log100%  
+	    New File  		    7885	backup_2025-08-22_19-44.log100%  
+	    New File  		       0	backup_2025-08-22_20-13.log
