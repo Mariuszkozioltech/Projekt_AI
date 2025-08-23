@@ -6,4 +6,8 @@ Eksperyment z wykorzystaniem sztucznej inteligencji do analizy danych i automaty
 
 ```bash
 pip install -r requirements.txt
-python main.py
+python backend_api/main.py
+
+## Autor
+Mariusz Koziol  
+📧 mariusz.koziol.tech@outlook.com

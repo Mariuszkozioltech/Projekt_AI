@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zasady systemu</title>
+  <style>
+    body { font-family: Arial; margin: 40px; background: #f4f4f4; }
+    h1 { color: #333; }
+    .zasada { background: #fff; padding: 10px; margin: 10px 0; border-left: 4px solid #0078D7; position: relative; }
+    .usun { position: absolute; right: 10px; top: 10px; background: #e00; color: #fff; border: none; padding: 5px; cursor: pointer; }
+    input, button { padding: 8px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>📋 Lista zasad</h1>
+  <div id="lista"></div>
+
+  <h2>➕ Dodaj nową zasadę</h2>
+  <input type="text" id="tresc" placeholder="Treść zasady">
+  <button onclick="dodaj()">Dodaj</button>
+
+  <script>
+    async function pobierz() {
+      const res = await fetch("http://127.0.0.1:8000/zasady");
+      const zasady = await res.json();
+      const lista = document.getElementById("lista");
+      lista.innerHTML = "";
+      zasady.forEach(z => {
+        const div = document.createElement("div");
+        div.className = "zasada";
+        div.innerHTML = `
+          <strong>${z.czas}</strong><br>${z.tresc}
+          <button class="usun" onclick="usun('${z.czas}')">🗑️ Usuń</button>
+        `;
+        lista.appendChild(div);
+      });
+    }
+
+    async function dodaj() {
+      const tresc = document.getElementById("tresc").value;
+      const czas = new Date().toISOString();
+      const zasada = { czas, tresc };
+      await fetch("http://127.0.0.1:8000/dodaj_zasade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ilosc: 1, zasady: [zasada] })
+      });
+      document.getElementById("tresc").value = "";
+      pobierz();
+    }
+
+    async function usun(czas) {
+      await fetch("http://127.0.0.1:8000/usun_zasade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ czas })
+      });
+      pobierz();
+    }
+
+    pobierz();
+  </script>
+</body>
+</html>
