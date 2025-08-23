@@ -10,3 +10,8 @@ PRZYKŁAD:
 ZASADA: jestem w biorze to pracuje
 POWÓD:
 PRZYKŁAD:
+
+[DATA: 2025-08-23 18:23:17]
+ZASADA: oli jest naprawde super
+POWÓD:
+PRZYKŁAD:
