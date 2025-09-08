@@ -1,0 +1,457 @@
+﻿/* === Konfiguracja === */
+const API_URL = "http://127.0.0.1:8000/chat";
+const HASLO = "TwojeSuperHaslo";
+let chatHistory = [];
+
+/* Stan UI */
+const state = {
+  audio:false, observe:false, system:false,
+  dock:"left",
+  activeCard:"whatsapp",
+  cards:{}
+};
+
+function saveCardsToStorage(){
+  localStorage.setItem("ai_cards_state", JSON.stringify({activeCard:state.activeCard,cards:state.cards}));
+}
+function loadCardsFromStorage(){
+  try{
+    const s = JSON.parse(localStorage.getItem("ai_cards_state") || "{}");
+    if(s.cards) state.cards = s.cards;
+    if(s.activeCard) state.activeCard = s.activeCard;
+  }catch{}
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const chatToggle = document.getElementById("chat_toggle");
+  const chatPanel  = document.getElementById("chat_panel");
+  const chatClose  = document.getElementById("chat_close");
+  const chatResizer= document.getElementById("chat_resizer");
+  const sendBtn    = document.getElementById("chat_send");
+  const input      = document.getElementById("chat_input");
+
+  const btnAudio   = document.getElementById("chat_audio");
+  const btnObs     = document.getElementById("chat_observe_toggle");
+  const btnSys     = document.getElementById("chat_system_toggle");
+  const badgeAudio = document.getElementById("badge_audio");
+  const badgeObs   = document.getElementById("badge_observe");
+  const badgeSys   = document.getElementById("badge_system");
+
+  const hintL = document.getElementById("dock_hint_left");
+  const hintR = document.getElementById("dock_hint_right");
+  const hintT = document.getElementById("dock_hint_top");
+  const hintB = document.getElementById("dock_hint_bottom");
+
+  const tabsScroll = document.getElementById("tabs_scroll");
+  const tabAdd     = document.getElementById("tab_add");
+
+  const cardModal  = document.getElementById("card_modal");
+  const cardTitle  = document.getElementById("card_modal_title");
+  const fieldAuto  = document.getElementById("card_autoReply");
+  const fieldKeys  = document.getElementById("card_keywords");
+  const fieldNotes = document.getElementById("card_notes");
+  const cardSave   = document.getElementById("card_save");
+  const cardClose  = document.getElementById("card_close");
+
+  // --- Karty: wczytaj z pliku + localStorage ---
+  fetch("cards-config.json").then(r=>r.json()).then(cfg=>{
+    loadCardsFromStorage();
+    cfg.cards.forEach(c=>{ if(!state.cards[c.id]) state.cards[c.id]=c; });
+    renderTabs(); activateTab(state.activeCard || cfg.cards[0].id);
+  }).catch(()=>{
+    loadCardsFromStorage();
+    if(Object.keys(state.cards).length===0){
+      state.cards = {
+        whatsapp:{id:"whatsapp",name:"WhatsApp",icon:"🟢",rules:{autoReply:false,keywords:[],notes:""}},
+        outlook:{id:"outlook",name:"Outlook",icon:"📧",rules:{autoReply:false,keywords:[],notes:""}},
+        messenger:{id:"messenger",name:"Messenger",icon:"💬",rules:{autoReply:false,keywords:[],notes:""}}
+      };
+    }
+    renderTabs(); activateTab(state.activeCard || "whatsapp");
+  });
+
+  function renderTabs(){
+    tabsScroll.innerHTML = "";
+    Object.values(state.cards).forEach(c=>{
+      const b = document.createElement("button");
+      b.className = "tab_btn" + (c.id===state.activeCard?" active":"");
+      b.dataset.card = c.id;
+      b.textContent = `${c.icon} ${c.name}`;
+      b.onclick = ()=>activateTab(c.id);
+      b.oncontextmenu = (e)=>{ e.preventDefault(); openCardModal(c.id); };
+      tabsScroll.appendChild(b);
+    });
+  }
+  function activateTab(cardId){
+    state.activeCard = cardId; saveCardsToStorage();
+    document.querySelectorAll(".tab_btn").forEach(btn=>btn.classList.toggle("active", btn.dataset.card===cardId));
+  }
+  function openCardModal(cardId){
+    const c = state.cards[cardId]; if(!c) return;
+    cardTitle.textContent = c.name;
+    fieldAuto.checked = !!c.rules?.autoReply;
+    fieldKeys.value = (c.rules?.keywords||[]).join(", ");
+    fieldNotes.value = c.rules?.notes || "";
+    cardModal.classList.remove("hidden");
+    cardSave.onclick = ()=>{
+      c.rules = c.rules || {};
+      c.rules.autoReply = fieldAuto.checked;
+      c.rules.keywords = fieldKeys.value.split(",").map(s=>s.trim()).filter(Boolean);
+      c.rules.notes = fieldNotes.value.trim();
+      state.cards[cardId] = c; saveCardsToStorage();
+      cardModal.classList.add("hidden");
+    };
+    cardClose.onclick = ()=>cardModal.classList.add("hidden");
+  }
+  if(tabAdd){
+    tabAdd.onclick = ()=>{
+      const id = "card_" + Math.random().toString(36).slice(2,7);
+      state.cards[id] = {id,name:"Nowa karta",icon:"🧩",rules:{autoReply:false,keywords:[],notes:""}};
+      saveCardsToStorage(); renderTabs(); activateTab(id); openCardModal(id);
+    };
+  }
+
+  // ------ Docking i chmurka (hold 1s + podgląd) ------
+  function applyDock(dock, keepOpen=false){
+    state.dock = dock;
+    chatPanel.className = ""; // reset
+    chatPanel.classList.add(`dock-${dock}`);
+    // klasy kierunkowe dla hover
+    chatToggle.classList.remove("bubble-right","bubble-top","bubble-bottom");
+    if(dock==="right") chatToggle.classList.add("bubble-right");
+    if(dock==="top") chatToggle.classList.add("bubble-top");
+    if(dock==="bottom") chatToggle.classList.add("bubble-bottom");
+    if(keepOpen && !chatPanel.classList.contains("open")) chatPanel.classList.add("open");
+  }
+  function nearestDock(){
+    const r = chatToggle.getBoundingClientRect();
+    const dist = {left:r.left, right:window.innerWidth-r.right, top:r.top, bottom:window.innerHeight-r.bottom};
+    return Object.entries(dist).sort((a,b)=>a[1]-b[1])[0][0];
+  }
+  function showDockHint(where){
+    document.getElementById("dock_hint_left").classList.toggle("show",where==="left");
+    document.getElementById("dock_hint_right").classList.toggle("show",where==="right");
+    document.getElementById("dock_hint_top").classList.toggle("show",where==="top");
+    document.getElementById("dock_hint_bottom").classList.toggle("show",where==="bottom");
+  }
+  function hideDockHints(){
+    ["dock_hint_left","dock_hint_right","dock_hint_top","dock_hint_bottom"].forEach(id=>document.getElementById(id).classList.remove("show"));
+  }
+
+  function openPanel(){ chatPanel.classList.add("open"); }
+  function closePanel(){ chatPanel.classList.remove("open"); }
+
+  chatToggle.addEventListener("click", ()=>{
+    if(chatPanel.classList.contains("open")) closePanel();
+    else openPanel();
+  });
+  if(chatClose) chatClose.addEventListener("click", closePanel);
+
+  let holdTimer=null, draggingBubble=false, offsetX=0, offsetY=0;
+  chatToggle.addEventListener("mousedown",(e)=>{
+    holdTimer = setTimeout(()=>{
+      draggingBubble = true;
+      offsetX = e.clientX - chatToggle.offsetLeft;
+      offsetY = e.clientY - chatToggle.offsetTop;
+      document.onmousemove = (ev)=>{
+        if(!draggingBubble) return;
+        chatToggle.style.left = (ev.clientX - offsetX) + "px";
+        chatToggle.style.top  = (ev.clientY - offsetY) + "px";
+        const guess = nearestDock();
+        showDockHint(guess);
+        applyDock(guess, chatPanel.classList.contains("open")); // natychmiastowa zmiana kierunku
+      };
+      document.onmouseup = ()=>{
+        draggingBubble=false; document.onmousemove=null; document.onmouseup=null; hideDockHints();
+        const dock = nearestDock();
+        applyDock(dock, chatPanel.classList.contains("open"));
+        // ogranicz pozycję chmurki i dociśnij do ściany na pół-schowanie
+        const maxLeft = window.innerWidth - chatToggle.offsetWidth;
+        const maxTop  = window.innerHeight - chatToggle.offsetHeight;
+        chatToggle.style.left = Math.min(Math.max(chatToggle.offsetLeft, -20), maxLeft) + "px";
+        chatToggle.style.top  = Math.min(Math.max(chatToggle.offsetTop, 44), maxTop) + "px";
+      };
+    }, 1000); // 1 sekunda
+  });
+  chatToggle.addEventListener("mouseup", ()=>clearTimeout(holdTimer));
+  applyDock("left", false);
+
+  // ------ Resizer ------
+  let resizing=false;
+  if(chatResizer){
+    chatResizer.addEventListener("mousedown",(e)=>{resizing=true;document.body.style.userSelect="none";e.preventDefault();});
+    window.addEventListener("mousemove",(e)=>{
+      if(!resizing) return;
+      const d = state.dock;
+      if(d==="left")  chatPanel.style.width  = Math.min(Math.max(e.clientX, 280), 1000) + "px";
+      if(d==="right") chatPanel.style.width  = Math.min(Math.max(window.innerWidth - e.clientX, 280), 1000) + "px";
+      if(d==="top")   chatPanel.style.height = Math.min(Math.max(e.clientY-44, 220), window.innerHeight-80) + "px";
+      if(d==="bottom")chatPanel.style.height = Math.min(Math.max(window.innerHeight - e.clientY, 220), window.innerHeight-80) + "px";
+    });
+    window.addEventListener("mouseup",()=>{ if(resizing){resizing=false;document.body.style.userSelect="";} });
+  }
+
+  // ------ Toolbar badge ------
+  function setBadge(badge,on,textOn,textOff,btn){
+    if(!badge) return;
+    if(on){badge.classList.remove("off");badge.classList.add("on");badge.textContent=textOn;btn&&btn.classList.add("active");}
+    else  {badge.classList.remove("on");badge.classList.add("off");badge.textContent=textOff;btn&&btn.classList.remove("active");}
+  }
+  if(btnAudio&&badgeAudio) btnAudio.addEventListener("click",()=>{state.audio=!state.audio;setBadge(badgeAudio,state.audio,"Audio: włączone","Audio: wyłączone",btnAudio);});
+  if(btnObs&&badgeObs)     btnObs.addEventListener("click",()=>{state.observe=!state.observe;setBadge(badgeObs,state.observe,"Obserwacja: włączona","Obserwacja: wyłączona",btnObs);});
+  if(btnSys&&badgeSys)     btnSys.addEventListener("click",()=>{state.system=!state.system;setBadge(badgeSys,state.system,"System: odblokowany","System: zablokowany",btnSys);});
+
+  // Panel problemów toggle
+  const statusToggle = document.getElementById("status_toggle");
+  if(statusToggle){
+    statusToggle.addEventListener("click",()=>{
+      const p = document.getElementById("status_content");
+      p.classList.toggle("hidden");
+    });
+  }
+
+  // Wysyłanie wiadomości
+  if(sendBtn) sendBtn.onclick = sendChatMessage;
+  if(input){
+    input.addEventListener("keydown",(e)=>{ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); sendChatMessage(); }});
+  }
+});
+
+/* === Render czatu (czysta wersja) === */
+function sendChatMessage() {
+  const input = document.getElementById("chat_input");
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+
+  const msgType = "text";
+  const userMsg = { autor: "Ty", tekst: text, typ: msgType, ts: Date.now() };
+  window.chatHistory = window.chatHistory || [];
+  window.chatHistory.push(userMsg);
+  renderChat();
+  input.value = "";
+
+  const reply = "OK — rozumiem: " + text + " (fallback)";
+  window.chatHistory.push({ autor: "AI", tekst: reply, typ: "text", ts: Date.now() });
+  renderChat();
+}
+
+# g) ENTER wysyła — upewnij się, że handler istnieje
+if ($js -notmatch 'addEventListener\("keydown".*Enter') {
+  $addG = @'
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("chat_input");
+  const sendBtn = document.getElementById("chat_send");
+  if (sendBtn) sendBtn.onclick = sendChatMessage;
+  if (input) {
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendChatMessage();
+      }
+    });
+  }
+}););
+  box.scrollTop = box.scrollHeight;
+}
+
+/* Wysyłka do AI */
+
+/* === Wysyłanie wiadomości (naprawione) === */
+/* sendChatMessage: replaced by HOTFIX */const text = input.value.trim();
+  if (!text) { diag("Pusta wiadomość"); return; }
+
+  // typ wiadomości wg filtra: tu przyjmujemy "text" (pisanie). Integracje audio ustawiają "audio".
+  const msgType = "text";
+
+  const userMsg = { autor: "Ty", tekst: text, typ: msgType, ts: Date.now() };
+  chatHistory.push(userMsg);
+  renderChat();
+  input.value = "";
+
+  if (REPLY_SOURCE === "sim") {
+    const reply = simulateAIReply(text);
+    chatHistory.push({ autor: "AI", tekst: reply, typ: "text", ts: Date.now() });
+    renderChat();
+    diag("Symulacja odpowiedzi (fallback).");
+    try { analizujRozmowe(); } catch(e){}
+    return;
+  }
+
+  // MODEL (API) z timeoutem
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), DIAG_TIMEOUT_MS);
+
+  fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ wiadomosc: text, historia: chatHistory, haslo: HASLO }),
+    signal: controller.signal
+  })
+  .then(res => res.ok ? res.json() : Promise.reject(new Error("HTTP " + res.status)))
+  .then(data => {
+    clearTimeout(timer);
+    const odpowiedz = data?.odpowiedz || simulateAIReply(text);
+    chatHistory.push({ autor: "AI", tekst: odpowiedz, typ: "text", ts: Date.now() });
+    renderChat();
+    diag("Odpowiedź z modelu OK.");
+    try { analizujRozmowe(); } catch(e){}
+  })
+  .catch(err => {
+    clearTimeout(timer);
+    diag("Błąd modelu: " + err.message, "średni");
+    const fallback = simulateAIReply(text);
+    chatHistory.push({ autor: "AI", tekst: fallback + " (fallback)", typ: "text", ts: Date.now() });
+    renderChat();
+    try { analizujRozmowe(); } catch(e){}
+  });
+}
+function renderChatFiltered(list) {
+  if (HISTORY_FILTER === "both") return list;
+  return list.filter(m => (HISTORY_FILTER === "text" ? m.typ === "text" : m.typ === "audio"));
+}
+
+
+/* === HOTFIX-SEND v1 === */
+if (typeof window.simulateAIReply !== "function") {
+  window.simulateAIReply = function(userText) {
+    const tips = [
+      "Doprecyzuj, co chcesz osiągnąć, a ja to rozpiszę.",
+      "Chcesz, żebym zrobił szkic instrukcji albo listę kroków?",
+      "Mogę to od razu zamienić w gotowe polecenia."
+    ];
+    const pick = tips[Math.floor(Math.random()*tips.length)];
+    return "OK — rozumiem: " + userText + ". " + pick;
+  };
+}
+
+function renderChat() {
+  const box = document.getElementById("chat_messages");
+  if (!box) return;
+  box.innerHTML = "";
+  (window.chatHistory || []).forEach(msg => {
+    const div = document.createElement("div");
+    div.className = "chat_msg " + (msg.autor === "Ty" ? "chat_me" : "chat_ai");
+    div.textContent = msg.tekst;
+    box.appendChild(div);
+  });
+  box.scrollTop = box.scrollHeight;
+}
+
+function sendChatMessage() {
+  const input = document.getElementById("chat_input");
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+
+  const msgType = "text";
+  const userMsg = { autor: "Ty", tekst: text, typ: msgType, ts: Date.now() };
+  window.chatHistory = window.chatHistory || [];
+  window.chatHistory.push(userMsg);
+  renderChat();
+  input.value = "";
+
+  const reply = "OK — rozumiem: " + text + " (fallback)";
+  window.chatHistory.push({ autor: "AI", tekst: reply, typ: "text", ts: Date.now() });
+  renderChat();
+}
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
+
+    fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ wiadomosc: text, historia: window.chatHistory, haslo: HASLO_LOCAL }),
+      signal: controller.signal
+    })
+    .then(res => res.ok ? res.json() : Promise.reject(new Error("HTTP " + res.status)))
+    .then(data => {
+      clearTimeout(timer);
+      const odpowiedz = (data && data.odpowiedz) ? data.odpowiedz : window.simulateAIReply(text);
+      window.chatHistory.push({ autor: "AI", tekst: odpowiedz, ts: Date.now() });
+      renderChat();
+    })
+    .catch(err => {
+      clearTimeout(timer);
+      const reply = window.simulateAIReply(text) + " (fallback)";
+      window.chatHistory.push({ autor: "AI", tekst: reply, ts: Date.now() });
+      renderChat();
+      try { console.warn("HOTFIX-SEND fallback:", err?.message || err); } catch(e){}
+    });
+
+  } catch(e) {
+    try { console.error("HOTFIX-SEND sendChatMessage error:", e); } catch(_){}
+  }
+}
+
+  // pierwsze renderowanie, jeśli była historia
+  try { renderChat(); } catch(e){}
+  console.log("HOTFIX-SEND v1 loaded");
+});
+/* === FIX: ENTER handler + Wyślij (idempotent, bez exportów) === */
+(function(){
+  function ensureSendFn(){
+    if (typeof window.sendChatMessage === "function") return;
+    window.sendChatMessage = function(){
+      const input = document.getElementById("chat_input");
+      const box   = document.getElementById("chat_messages");
+      if (!input || !box) return;
+
+      const text = (input.value || "").trim();
+      if (!text) return;
+
+      // minimalna historia + fallback odpowiedź, żeby było widać przepływ
+      window.chatHistory = window.chatHistory || [];
+      window.chatHistory.push({ autor: "Ty", tekst: text, ts: Date.now() });
+      input.value = "";
+
+      // Jeśli masz własne API, tu normalnie wyślij; na razie prosty fallback:
+      window.chatHistory.push({ autor: "AI", tekst: "OK — rozumiem: " + text + " (fallback)", ts: Date.now() });
+
+      // render
+      if (typeof renderChat === "function") {
+        renderChat();
+      } else {
+        // awaryjne renderowanie, gdy renderChat nie istnieje
+        box.innerHTML = "";
+        window.chatHistory.forEach(m => {
+          const d = document.createElement("div");
+          d.className = m.autor === "Ty" ? "chat_me" : "chat_ai";
+          d.textContent = m.tekst;
+          box.appendChild(d);
+        });
+        box.scrollTop = box.scrollHeight;
+      }
+    };
+  }
+
+  function wireHandlers(){
+    ensureSendFn();
+
+    const input = document.getElementById("chat_input");
+    const btn   = document.getElementById("chat_send");
+
+    if (btn && !btn._wired) {
+      btn.addEventListener("click", window.sendChatMessage);
+      btn._wired = true;
+    }
+    if (input && !input._wired) {
+      input.addEventListener("keydown", function(e){
+        // Enter wysyła; Shift+Enter robi nową linię
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          window.sendChatMessage();
+        }
+      });
+      input._wired = true;
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wireHandlers);
+  } else {
+    wireHandlers();
+  }
+})();
+/* === END HOTFIX-SEND v1 === */

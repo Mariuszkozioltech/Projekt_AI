@@ -1,3 +1,13 @@
+import logging
+
+logging.basicConfig(
+    filename="C:\\Projekt_AI\\logs\\app.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+logging.info("Skrypt uruchomiony")
+
 from datetime import datetime
 
 def zapisz_zasade_do_md(sciezka_pliku, tresc_zasady):

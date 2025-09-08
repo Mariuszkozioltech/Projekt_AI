@@ -1,0 +1,38 @@
+[
+  {
+    "id": "src_1756777443887",
+    "url": "https://finance.yahoo.com/",
+    "data_dodania": "2025-09-02T03:44:03.887824",
+    "sledz": true,
+    "kategorie": ["finanse", "akcje"],
+    "tryb": "aktywny",
+    "uwagi": "Skup się na newsach rynkowych"
+  },
+  {
+    "id": "src_1756751234089",
+    "url": "https://www.investopedia.com/",
+    "data_dodania": "2025-09-01T20:27:14.089468",
+    "sledz": true,
+    "kategorie": ["finanse", "edukacja"],
+    "tryb": "aktywny",
+    "uwagi": "Skup się na definicjach i poradnikach"
+  },
+  {
+    "id": "src_1756751201613",
+    "url": "https://en.wikipedia.org/wiki/Stock_market",
+    "data_dodania": "2025-09-01T20:26:41.613966",
+    "sledz": true,
+    "kategorie": ["finanse", "historia"],
+    "tryb": "aktywny",
+    "uwagi": "Skup się na ogólnych informacjach i kontekście"
+  },
+  {
+    "id": "src_1756751190259",
+    "url": "https://www.cnn.com",
+    "data_dodania": "2025-09-01T20:26:30.259254",
+    "sledz": true,
+    "kategorie": ["wiadomości", "świat"],
+    "tryb": "aktywny",
+    "uwagi": "Skup się na aktualnych wydarzeniach"
+  }
+]

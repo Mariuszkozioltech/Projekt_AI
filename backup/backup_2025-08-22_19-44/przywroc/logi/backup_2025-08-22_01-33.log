@@ -1,31 +1,0 @@
-
--------------------------------------------------------------------------------
-   ROBOCOPY     ::     Robust File Copy for Windows                              
--------------------------------------------------------------------------------
-
-  Started : pitek, 22 sierpnia 2025 01:33:33
-   Source : C:\Projekt_AI\
-     Dest : C:\Projekt_AI\backup\backup_2025-08-22_01-33\
-
-    Files : *.*
-	    
- Exc Dirs : C:\Projekt_AI\backup
-	    C:\Projekt_AI\multimedia
-	    
-  Options : *.* /TEE /S /E /DCOPY:AT /COPY:DAT /PURGE /MIR /R:3 /W:5 
-
-------------------------------------------------------------------------------
-
-	                   5	C:\Projekt_AI\
-	    New File  		      81	cleanup.bat100%  
-	    New File  		    1759	cleanup.ps1100%  
-	    New File  		    6133	start.bat100%  
-	    New File  		    6851	zzz start2,bat100%  
-	    New File  		    5802	zzz startstary.bat100%  
-	  New Dir          0	C:\Projekt_AI\dane_analizy\
-	  New Dir          0	C:\Projekt_AI\dokumentacja\
-	  New Dir          0	C:\Projekt_AI\komunikacja\
-	  New Dir          3	C:\Projekt_AI\logi\
-	    New File  		    3893	backup_2025-08-22_ 0-33.log100%  
-	    New File  		       0	backup_2025-08-22_00 25%   50%   75%  100%  
-	    New File  		       0	backup_2025-08-22_01-33.log

@@ -1,0 +1,43 @@
+[
+  {
+    "id": "mem_001",
+    "typ": "książka",
+    "źródło": "Sapiens",
+    "fragment": "Ludzie tworzą fikcje, by współpracować.",
+    "odczucie": "inspirujące",
+    "powiązanie": "etapy rozwoju AI"
+  },
+  {
+    "id": "mem_002",
+    "typ": "rozmowa",
+    "źródło": "Mariusz",
+    "fragment": "AI musi być lojalne i uczciwe",
+    "odczucie": "ważne",
+    "powiązanie": "charakter AI"
+  }
+]
+
+@app.post("/zapamietaj")
+def zapamietaj_fragment(dane: dict):
+    pamiec_path = os.path.join("C:", "Projekt_AI", "PROJEKT", "AI_trening", "pamiec.json")
+    try:
+        with open(pamiec_path, "r", encoding="utf-8") as f:
+            pamiec = json.load(f)
+    except:
+        pamiec = []
+
+    fragment = {
+        "id": f"mem_{int(datetime.now().timestamp())}",
+        "typ": dane.get("typ", "rozmowa"),
+        "źródło": dane.get("źródło", "Mariusz"),
+        "fragment": dane.get("fragment", ""),
+        "odczucie": dane.get("odczucie", ""),
+        "powiązanie": dane.get("powiązanie", "")
+    }
+
+    pamiec.append(fragment)
+
+    with open(pamiec_path, "w", encoding="utf-8") as f:
+        json.dump(pamiec, f, ensure_ascii=False, indent=2)
+
+    return {"status": "Zapamiętano", "id": fragment["id"]}

@@ -1,0 +1,161 @@
+main.py,C:\Projekt_AI\backend_api\main.py,d42a093d2af422205f4c88795642dac8
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\annotated_types-0.7.0.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\anyio\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\anyio-4.10.0.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\click\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\click-8.2.1.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\colorama-0.4.6.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\fastapi\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\fastapi-0.116.1.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\h11-0.16.0.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\idna\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\idna-3.10.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\cachecontrol\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\certifi\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\dependency_groups\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\distro\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\idna\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\packaging\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\platformdirs\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\pyproject_hooks\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\resolvelib\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\rich\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\pip-25.2.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pydantic\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\pydantic-2.11.7.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pydantic_core\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\pydantic_core-2.33.2.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\sniffio\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\sniffio-1.3.1.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\starlette-0.47.2.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\typing_extensions-4.14.1.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\typing_inspection-0.4.1.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\uvicorn-0.35.0.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+-Method,C:\Projekt_AI\backend_api\-Method,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\annotated_types\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\anyio\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\click\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\fastapi\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\fastapi-0.116.1.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\idna\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\cachecontrol\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\certifi\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\dependency_groups\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\distro\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\idna\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\packaging\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\platformdirs\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\pyproject_hooks\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\resolvelib\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\rich\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\truststore\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip-25.2.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pydantic\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pydantic\v1\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pydantic_core\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\sniffio\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\starlette\py.typed,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\typing_inspection\py.typed,d41d8cd98f00b204e9800998ecf8427e
+REQUESTED,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\uvicorn-0.35.0.dist-info\REQUESTED,d41d8cd98f00b204e9800998ecf8427e
+asystent_log.txt,C:\Projekt_AI\logi_analizy\asystent_log.txt,d41d8cd98f00b204e9800998ecf8427e
+raport_zbiorczy.csv,C:\Projekt_AI\logi_analizy\raport_zbiorczy.csv,d41d8cd98f00b204e9800998ecf8427e
+frontend_log.txt,C:\Projekt_AI\logs\frontend_log.txt,d41d8cd98f00b204e9800998ecf8427e
+sources.json,C:\Projekt_AI\PROJEKT\AI_trening\materials\index\sources.json,d41d8cd98f00b204e9800998ecf8427e
+2025-08-22_rozmowa1.txt,C:\Projekt_AI\PROJEKT\komunikacja\2025-08-22_rozmowa1.txt,d41d8cd98f00b204e9800998ecf8427e
+raw,C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\raw,d41d8cd98f00b204e9800998ecf8427e
+2025_imie.csv,C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\Dokument IBKR archiwum\ibkr\2025_imie.csv,d41d8cd98f00b204e9800998ecf8427e
+2026_mamoladowa.csv,C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\Dokument IBKR archiwum\ibkr\2026_mamoladowa.csv,d41d8cd98f00b204e9800998ecf8427e
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\annotated_types\py.typed,d41d8cd98f00b204e9800998ecf8427e
+resource_log.txt,C:\Projekt_AI\backend_api\resource_log.txt,ae3eca45eb7dd3b239e72685ed5bec74
+app.log,C:\Projekt_AI\backend_api\Projekt_AI\logs\app.log,b5b88fbfed67171462dad24f9f80000b
+main.cpython-313.pyc,C:\Projekt_AI\backend_api\__pycache__\main.cpython-313.pyc,1dcccf45d2e69798e09185da7a0f1816
+cache.csv,C:\Projekt_AI\logi_analizy\cache.csv,d41d8cd98f00b204e9800998ecf8427e
+duplikaty.csv,C:\Projekt_AI\logi_analizy\duplikaty.csv,54a3af8a5fb8b248c5544c436686690a
+inne.csv,C:\Projekt_AI\logi_analizy\inne.csv,10a866b9520b2e9bbafa88c54176159e
+vbs_log.txt,C:\Projekt_AI\logi_analizy\vbs_log.txt,09e9907592b14a509b83a47ff7827da0
+Raport wygenerowany,2025-09-07 08:11:07
+Liczba plików przeanalizowanych,75
+Pliki w kategorii Dodane,0
+Pliki w kategorii Zmienione,1
+Pliki w kategorii Oczekujące,0
+Pliki w kategorii Duplikaty,66
+Pliki w kategorii Poprawne,0
+Pliki w kategorii Błędy,0
+Pliki w kategorii Inne,8
+
+Nazwa pliku,Lokalizacja,Data,Godzina,Status,Opis,Hash,Link
+-Method,C:\Projekt_AI\backend_api\-Method,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/-Method
+2025-08-22_rozmowa1.txt,C:\Projekt_AI\PROJEKT\komunikacja\2025-08-22_rozmowa1.txt,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/PROJEKT/komunikacja/2025-08-22_rozmowa1.txt
+2025_imie.csv,C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\Dokument IBKR archiwum\ibkr\2025_imie.csv,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/PROJEKT/strategia_inwestycyjna/Dokument IBKR archiwum/ibkr/2025_imie.csv
+2026_mamoladowa.csv,C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\Dokument IBKR archiwum\ibkr\2026_mamoladowa.csv,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/PROJEKT/strategia_inwestycyjna/Dokument IBKR archiwum/ibkr/2026_mamoladowa.csv
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\annotated_types-0.7.0.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/annotated_types-0.7.0.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\anyio-4.10.0.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/anyio-4.10.0.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\click-8.2.1.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/click-8.2.1.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\colorama-0.4.6.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/colorama-0.4.6.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\fastapi-0.116.1.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/fastapi-0.116.1.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\h11-0.16.0.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/h11-0.16.0.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\idna-3.10.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/idna-3.10.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\pip-25.2.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip-25.2.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\pydantic-2.11.7.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pydantic-2.11.7.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\pydantic_core-2.33.2.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pydantic_core-2.33.2.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\sniffio-1.3.1.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/sniffio-1.3.1.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\starlette-0.47.2.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/starlette-0.47.2.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\typing_extensions-4.14.1.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/typing_extensions-4.14.1.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\typing_inspection-0.4.1.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/typing_inspection-0.4.1.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\.venv\Lib\site-packages\uvicorn-0.35.0.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/uvicorn-0.35.0.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\fastapi-0.116.1.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/fastapi-0.116.1.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip-25.2.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip-25.2.dist-info/REQUESTED
+REQUESTED,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\uvicorn-0.35.0.dist-info\REQUESTED,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/uvicorn-0.35.0.dist-info/REQUESTED
+asystent_log.txt,C:\Projekt_AI\logi_analizy\asystent_log.txt,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/logi_analizy/asystent_log.txt
+frontend_log.txt,C:\Projekt_AI\logs\frontend_log.txt,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/logs/frontend_log.txt
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\anyio\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/anyio/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\click\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/click/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\fastapi\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/fastapi/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\idna\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/idna/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\cachecontrol\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/cachecontrol/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\certifi\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/certifi/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\dependency_groups\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/dependency_groups/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\distro\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/distro/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\idna\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/idna/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\packaging\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/packaging/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\platformdirs\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/platformdirs/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\pyproject_hooks\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\resolvelib\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/resolvelib/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pip\_vendor\rich\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pip/_vendor/rich/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pydantic\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pydantic/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\pydantic_core\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/pydantic_core/py.typed
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\sniffio\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/sniffio/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\annotated_types\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/annotated_types/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\anyio\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/anyio/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\click\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/click/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\fastapi\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/fastapi/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\idna\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/idna/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\cachecontrol\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/cachecontrol/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\certifi\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/certifi/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\dependency_groups\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/dependency_groups/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\distro\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/distro/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\idna\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/idna/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\packaging\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/packaging/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\platformdirs\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/platformdirs/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\pyproject_hooks\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\resolvelib\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/resolvelib/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\rich\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/rich/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pip\_vendor\truststore\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pip/_vendor/truststore/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pydantic\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pydantic/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pydantic\v1\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pydantic/v1/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\pydantic_core\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/pydantic_core/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\sniffio\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/sniffio/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\starlette\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/starlette/py.typed
+py.typed,C:\Projekt_AI\backend_api\.venv\Lib\site-packages\typing_inspection\py.typed,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/backend_api/.venv/Lib/site-packages/typing_inspection/py.typed
+raport_zbiorczy.csv,C:\Projekt_AI\logi_analizy\raport_zbiorczy.csv,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/logi_analizy/raport_zbiorczy.csv
+raw,C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\raw,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/PROJEKT/strategia_inwestycyjna/raw
+sources.json,C:\Projekt_AI\PROJEKT\AI_trening\materials\index\sources.json,2025-09-07,08:11:07,DUPLIKATY,Duplikat pliku: py.typed,d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/PROJEKT/AI_trening/materials/index/sources.json
+app.log,C:\Projekt_AI\backend_api\Projekt_AI\logs\app.log,2025-09-07,08:11:07,INNE,Zarejestrowano plik .log (bez analizy),b5b88fbfed67171462dad24f9f80000b,file:///C:/Projekt_AI/backend_api/Projekt_AI/logs/app.log
+cache.csv,C:\Projekt_AI\logi_analizy\cache.csv,2025-09-07,08:11:07,INNE,Zarejestrowano plik .csv (bez analizy),12dfaed7c4e309bd29cfc26a94d790f0,file:///C:/Projekt_AI/logi_analizy/cache.csv
+duplikaty.csv,C:\Projekt_AI\logi_analizy\duplikaty.csv,2025-09-07,08:11:07,INNE,Zarejestrowano plik .csv (bez analizy),54a3af8a5fb8b248c5544c436686690a,file:///C:/Projekt_AI/logi_analizy/duplikaty.csv
+inne.csv,C:\Projekt_AI\logi_analizy\inne.csv,2025-09-07,08:11:07,INNE,Zarejestrowano plik .csv (bez analizy),10a866b9520b2e9bbafa88c54176159e,file:///C:/Projekt_AI/logi_analizy/inne.csv
+main.cpython-313.pyc,C:\Projekt_AI\backend_api\__pycache__\main.cpython-313.pyc,2025-09-07,08:11:07,INNE,Zarejestrowano plik .pyc (bez analizy),1dcccf45d2e69798e09185da7a0f1816,file:///C:/Projekt_AI/backend_api/__pycache__/main.cpython-313.pyc
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\annotated_types\py.typed,2025-09-07,08:11:07,INNE,Zarejestrowano plik .typed (bez analizy),d41d8cd98f00b204e9800998ecf8427e,file:///C:/Projekt_AI/.venv/Lib/site-packages/annotated_types/py.typed
+resource_log.txt,C:\Projekt_AI\backend_api\resource_log.txt,2025-09-07,08:11:07,INNE,Zarejestrowano plik .txt (bez analizy),ae3eca45eb7dd3b239e72685ed5bec74,file:///C:/Projekt_AI/backend_api/resource_log.txt
+vbs_log.txt,C:\Projekt_AI\logi_analizy\vbs_log.txt,2025-09-07,08:11:07,INNE,Zarejestrowano plik .txt (bez analizy),09e9907592b14a509b83a47ff7827da0,file:///C:/Projekt_AI/logi_analizy/vbs_log.txt
+main.py,C:\Projekt_AI\backend_api\main.py,2025-09-07,08:11:07,ZMIENIONE,Inne logowanie wykryte,d42a093d2af422205f4c88795642dac8,file:///C:/Projekt_AI/backend_api/main.py

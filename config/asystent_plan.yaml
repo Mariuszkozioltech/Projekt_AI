@@ -1,0 +1,23 @@
+asystent:
+  cel: Pomoc w zarządzaniu etapami, testowaniu i rozwoju projektu
+  nazwa: B_asystent
+  wersja: '0.1'
+zadania:
+- id: A1
+  nazwa: Wczytaj etapy z etapy.yaml
+  status: done
+- id: A2
+  nazwa: Wyświetl status i podpowiedź
+  status: done
+- id: A3
+  nazwa: Pokaz instrukcje dla aktywnego etapu
+  status: done
+- id: A4
+  nazwa: Sprawdź foldery i pliki
+  status: done
+- id: A5
+  nazwa: Zapisz błędy do logu
+  status: done
+- id: A6
+  nazwa: Testuj uruchomienie panelu
+  status: done

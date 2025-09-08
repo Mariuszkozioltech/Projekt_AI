@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Etapy projektu</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f4f4f4; }
+    .etap { padding: 10px; margin: 10px 0; background: #fff; border-left: 4px solid #0078D7; }
+    .done { border-color: green; }
+    .todo { border-color: orange; }
+    .in_progress { border-color: blue; }
+    button { margin-top: 5px; padding: 5px 10px; }
+    input, select { margin-top: 5px; padding: 5px; width: 300px; display: block; }
+  </style>
+</head>
+<body>
+  <h1>📋 Etapy projektu</h1>
+  <div id="etapy"></div>
+
+  <h2>➕ Dodaj nowy etap</h2>
+  <input type="text" id="nowy_id" placeholder="ID etapu">
+  <input type="text" id="nowa_nazwa" placeholder="Nazwa etapu">
+  <input type="text" id="nowy_opis" placeholder="Opis etapu">
+  <select id="nowy_status">
+    <option value="todo">todo</option>
+    <option value="in_progress">in_progress</option>
+    <option value="done">done</option>
+  </select>
+  <button onclick="dodajEtap()">Dodaj etap</button>
+
+  <h2>✏️ Edytuj etap</h2>
+  <input type="text" id="edytuj_id" placeholder="ID etapu" readonly>
+  <input type="text" id="edytuj_nazwa" placeholder="Nowa nazwa">
+  <input type="text" id="edytuj_opis" placeholder="Nowy opis">
+  <select id="edytuj_status">
+    <option value="todo">todo</option>
+    <option value="in_progress">in_progress</option>
+    <option value="done">done</option>
+  </select>
+  <button onclick="zapiszZmiany()">Zapisz zmiany</button>
+
+  <script>
+    async function pobierzEtapy() {
+      const res = await fetch("http://127.0.0.1:8000/etapy");
+      const etapy = await res.json();
+      const kontener = document.getElementById("etapy");
+      kontener.innerHTML = "";
+      etapy.forEach(e => {
+        const div = document.createElement("div");
+        div.className = "etap " + e.status;
+        div.innerHTML = `
+          <strong>${e.id}</strong> – ${e.nazwa}<br>${e.opis}<br>
+          <button onclick="oznacz('${e.id}')">✅ Oznacz jako wykonane</button>
+          <button onclick="wypelnijFormularz('${e.id}', '${e.nazwa}', '${e.opis}', '${e.status}')">✏️ Edytuj</button>
+        `;
+        kontener.appendChild(div);
+      });
+    }
+
+    async function oznacz(id) {
+      await fetch("http://127.0.0.1:8000/oznacz_etap", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: "done" })
+      });
+      pobierzEtapy();
+    }
+
+    async function dodajEtap() {
+      const etap = {
+        id: document.getElementById("nowy_id").value,
+        nazwa: document.getElementById("nowa_nazwa").value,
+        opis: document.getElementById("nowy_opis").value,
+        status: document.getElementById("nowy_status").value
+      };
+      await fetch("http://127.0.0.1:8000/dodaj_etap", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(etap)
+      });
+      pobierzEtapy();
+    }
+
+    function wypelnijFormularz(id, nazwa, opis, status) {
+      document.getElementById("edytuj_id").value = id;
+      document.getElementById("edytuj_nazwa").value = nazwa;
+      document.getElementById("edytuj_opis").value = opis;
+      document.getElementById("edytuj_status").value = status;
+    }
+
+    async function zapiszZmiany() {
+      const etap = {
+        id: document.getElementById("edytuj_id").value,
+        nazwa: document.getElementById("edytuj_nazwa").value,
+        opis: document.getElementById("edytuj_opis").value,
+        status: document.getElementById("edytuj_status").value
+      };
+      await fetch("http://127.0.0.1:8000/edytuj_etap", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(etap)
+      });
+      pobierzEtapy();
+    }
+
+    pobierzEtapy();
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+Nazwa pliku,Lokalizacja,Opis
+app.log,C:\Projekt_AI\backend_api\Projekt_AI\logs\app.log,Zarejestrowano plik .log (bez analizy)
+cache.csv,C:\Projekt_AI\logi_analizy\cache.csv,Zarejestrowano plik .csv (bez analizy)
+duplikaty.csv,C:\Projekt_AI\logi_analizy\duplikaty.csv,Zarejestrowano plik .csv (bez analizy)
+inne.csv,C:\Projekt_AI\logi_analizy\inne.csv,Zarejestrowano plik .csv (bez analizy)
+main.cpython-313.pyc,C:\Projekt_AI\backend_api\__pycache__\main.cpython-313.pyc,Zarejestrowano plik .pyc (bez analizy)
+py.typed,C:\Projekt_AI\.venv\Lib\site-packages\annotated_types\py.typed,Zarejestrowano plik .typed (bez analizy)
+resource_log.txt,C:\Projekt_AI\backend_api\resource_log.txt,Zarejestrowano plik .txt (bez analizy)
+vbs_log.txt,C:\Projekt_AI\logi_analizy\vbs_log.txt,Zarejestrowano plik .txt (bez analizy)

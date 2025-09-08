@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Pasek kart -->
+  <div id="app_tabs">
+    <div id="tabs_scroll">
+      <button class="tab_btn" data-card="whatsapp">🟢 WhatsApp</button>
+      <button class="tab_btn" data-card="outlook">📧 Outlook</button>
+      <button class="tab_btn" data-card="messenger">💬 Messenger</button>
+    </div>
+    <button id="tab_add">➕ Dodaj</button>
+  </div>
+
+  <!-- Chmurka czatu -->
+  <button id="chat_toggle" title="Otwórz czat">💬</button>
+
+  <!-- Panel czatu -->
+  <aside id="chat_panel" aria-label="Rozmowa z AI" class="dock-left">
+    <div id="chat_header">
+      <div class="chat_title">🗣️ Rozmowa z AI</div>
+      <div id="chat_toolbar" class="toolbar">
+        <button id="chat_voice" class="toolbar_btn" title="Głos (menu)">🎤</button>
+        <button id="chat_audio" class="toolbar_btn" title="Audio (wł/wył)">🎧</button>
+        <button id="chat_observe_toggle" class="toolbar_btn" title="Tryb obserwacji">👁️</button>
+        <button id="chat_system_toggle" class="toolbar_btn" title="Dostęp do systemu">💻</button>
+        <button id="chat_attach" class="toolbar_btn" title="Dodaj plik">📎</button>
+        <button id="chat_search" class="toolbar_btn" title="Szukaj">🔎</button>
+        <button id="chat_clear" class="toolbar_btn" title="Wyczyść">🧹</button>
+        <button id="chat_close" class="toolbar_btn" title="Zamknij">✖</button>
+      </div>
+    </div>
+
+    <div id="chat_statusbar">
+      <span id="badge_audio" class="badge off">Audio: wyłączone</span>
+      <span id="badge_observe" class="badge off">Obserwacja: wyłączona</span>
+      <span id="badge_system" class="badge off">System: zablokowany</span>
+    </div>
+
+    <div id="chat_resizer" title="Przeciągnij, aby zmienić rozmiar"></div>
+
+    <div id="chat_dropzone">📂 Przeciągnij tutaj pliki lub tekst…</div>
+    <div id="chat_messages" class="chat_box"></div>
+
+    <div id="chat_input_row">
+      <textarea id="chat_input" placeholder="Napisz… (Enter = wyślij, Shift+Enter = nowa linia)"></textarea>
+      <div class="input_actions">
+        <button id="chat_send">Wyślij</button>
+        <button id="chat_send_plus" title="Wyślij i kontynuuj">➕</button>
+        <button id="chat_save" onclick="zapiszRozmoweDoPliku()" title="Zapisz rozmowę">💾</button>
+      </div>
+    </div>
+
+    <div id="chat_status_panel" class="status_panel">
+      <button id="status_toggle" type="button">🔍 Problemy i decyzje</button>
+      <div id="status_content" class="hidden">
+        <ul id="status_list"></ul>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Dock hints -->
+  <div id="dock_hint_left" class="dock_hint"></div>
+  <div id="dock_hint_right" class="dock_hint"></div>
+  <div id="dock_hint_top" class="dock_hint"></div>
+  <div id="dock_hint_bottom" class="dock_hint"></div>
+
+  <!-- Modal ustawień karty -->
+  <div id="card_modal" class="modal hidden">
+    <div class="modal_box">
+      <h3>Ustawienia karty: <span id="card_modal_title"></span></h3>
+      <label>Auto-odpowiedzi: <input type="checkbox" id="card_autoReply" /></label>
+      <label>Słowa kluczowe: <input type="text" id="card_keywords" placeholder="np. oferta, pilne, faktura" /></label>
+      <label>Notatki i zasady: <textarea id="card_notes" rows="4" placeholder="Zasady, ton, priorytety, szablony..."></textarea></label>
+      <div class="modal_actions">
+        <button id="card_save">Zapisz</button>
+        <button id="card_close">Zamknij</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu głosu -->
+  <div id="voice_menu" class="voice_menu hidden">
+    <div class="voice_menu_content">
+      <h3>Ustawienia głosu</h3>
+      <label>Tryb:
+        <select id="voice_mode">
+          <option value="off">Wył.</option>
+          <option value="tts">TTS</option>
+          <option value="stt">STT</option>
+          <option value="duplex">Duplex</option>
+        </select>
+      </label>
+      <label>Wybór głosu: <input id="voice_name" placeholder="Imię/nazwa głosu" /></label>
+      <label>Próbka dźwięku: <input id="voice_sample" placeholder="C:\ścieżka\do\próbki.wav" /></label>
+      <label>Prędkość: <input id="voice_rate" type="range" min="0.5" max="1.75" step="0.05" value="1" /></label>
+      <div class="voice_menu_actions">
+        <button id="voice_save">Zastosuj</button>
+        <button id="voice_close">Zamknij</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+  <script src="ai-chat.js"></script>
+  <script src="api-etapy.js"></script>
+  <script src="api-materialy-sources.js"></script>
+  <script src="api-pamiec-zasady-zadania.js"></script>
+  <script src="connectors/whatsapp.js"></script>
+  <script src="connectors/outlook.js"></script>
+  <script src="connectors/messenger.js"></script>
+  <!-- Panel Osoby -->
+  <div id="people_panel" class="modal hidden">
+    <div class="modal_box" style="min-width: 420px;">
+      <h3>Osoby i relacje</h3>
+      <div style="display:flex; gap:10px;">
+        <div style="flex:1;">
+          <label>Wyszukaj:</label>
+          <input id="people_search" placeholder="Imię, tagi..." style="width:100%;" />
+          <ul id="people_list" style="max-height:280px; overflow:auto; margin-top:8px;"></ul>
+        </div>
+        <div style="flex:1;">
+          <div id="person_view">
+            <p>Wybierz osobę z listy.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal_actions">
+        <button id="person_add">➕ Dodaj</button>
+        <button id="people_close">Zamknij</button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal YouTube -->
+  <div id="youtube_modal" class="modal hidden">
+    <div class="modal_box" style="min-width: 420px;">
+      <h3>Połącz z YouTube (publiczne)</h3>
+      <label>URL kanału lub filmu:
+        <input id="yt_url" placeholder="https://www.youtube.com/@kanal lub https://youtu.be/..." style="width:100%" />
+      </label>
+      <label>Klucz API (opcjonalnie, do większych limitów):
+        <input id="yt_api_key" placeholder="AIza..." style="width:100%" />
+      </label>
+      <div class="modal_actions">
+        <button id="yt_analyze">Analizuj</button>
+        <button id="yt_close">Zamknij</button>
+      </div>
+      <p style="font-size:12px;color:#555;margin-top:8px;">
+        Analizujemy wyłącznie publicznie dostępne dane. Nic nie pobieramy bez Twojego działania.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+

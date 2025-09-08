@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel pamięci AI</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f4f4f4; }
+    .pamiec { background: #fff; padding: 10px; margin: 10px 0; border-left: 4px solid #0078D7; position: relative; }
+    .usun { position: absolute; right: 10px; top: 10px; background: #e00; color: #fff; border: none; padding: 5px; cursor: pointer; }
+    input, select, button { margin-top: 5px; padding: 8px; width: 300px; display: block; }
+  </style>
+</head>
+<body>
+  <h1>🧠 Pamięć systemu AI</h1>
+  <div id="pamiec"></div>
+
+  <h2>➕ Dodaj wpis do pamięci</h2>
+  <input type="text" id="id" placeholder="ID wpisu">
+  <input type="text" id="typ" placeholder="Typ (np. zasada, etap)">
+  <input type="text" id="tresc" placeholder="Treść wpisu">
+  <button onclick="dodaj()">Dodaj wpis</button>
+
+  <script>
+    async function pobierzPamiec() {
+      const res = await fetch("http://127.0.0.1:8000/pamiec");
+      const dane = await res.json();
+      const kontener = document.getElementById("pamiec");
+      kontener.innerHTML = `<p><strong>Ostatni etap:</strong> ${dane.ostatni_etap}</p>`;
+      dane.pamiec.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "pamiec";
+        div.innerHTML = `
+          <strong>${p.id}</strong> [${p.typ}]<br>${p.tresc}<br><em>${p.czas}</em>
+          <button class="usun" onclick="usun('${p.id}')">🗑️ Usuń</button>
+        `;
+        kontener.appendChild(div);
+      });
+    }
+
+    async function dodaj() {
+      const wpis = {
+        id: document.getElementById("id").value,
+        typ: document.getElementById("typ").value,
+        tresc: document.getElementById("tresc").value,
+        czas: new Date().toISOString()
+      };
+      await fetch("http://127.0.0.1:8000/dodaj_pamiec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(wpis)
+      });
+      document.getElementById("id").value = "";
+      document.getElementById("typ").value = "";
+      document.getElementById("tresc").value = "";
+      pobierzPamiec();
+    }
+
+    async function usun(id) {
+      await fetch("http://127.0.0.1:8000/usun_pamiec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      });
+      pobierzPamiec();
+    }
+
+    pobierzPamiec();
+  </script>
+</body>
+</html>

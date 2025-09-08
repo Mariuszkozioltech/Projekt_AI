@@ -1,0 +1,39 @@
+{
+  "pamiec": [
+    {
+      "id": "pam_001",
+      "typ": "zasada",
+      "tresc": "AI nie podejmuje decyzji bez zatwierdzenia użytkownika.",
+      "data": "2025-09-02T03:45:00",
+      "powiazane_etapy": [
+        "etap_001"
+      ]
+    },
+    {
+      "id": "pam_002",
+      "typ": "etap",
+      "tresc": "Projekt rozpoczęto 1 września 2025.",
+      "data": "2025-09-01T00:00:00",
+      "powiazane_etapy": []
+    },
+    {
+      "id": "pam_003",
+      "typ": "decyzja",
+      "tresc": "Użytkownik zatwierdził integrację z Google Home.",
+      "data": "2025-09-02T03:30:00",
+      "powiazane_etapy": [
+        "etap_003"
+      ]
+    },
+    {
+      "id": "pam_004",
+      "typ": "materiał",
+      "tresc": "Dodano materiał 'Introduction_to_Cybersecurity_and_Screen_Readers.pdf'.",
+      "data": "2025-09-02T02:46:00",
+      "powiazane_etapy": [
+        "etap_002"
+      ]
+    }
+  ],
+  "ostatni_etap": "2B"
+}

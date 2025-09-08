@@ -113,8 +113,8 @@ REM Plik logu
 set "LOGFILE=%LOG_DIR%\backup_%BACKUP_TIMESTAMP%.log"
 
 echo Rozpoczynam backup do: "%BACKUP_TARGET%" ...
-robocopy "%SOURCE_DIR%" "%BACKUP_TARGET%" /MIR /DCOPY:T /COPY:DAT /R:3 /W:5 /TEE ^
- /XD "%SOURCE_DIR%\backup" "%SOURCE_DIR%\multimedia" /LOG+:"%LOGFILE%"
+:: robocopy "%SOURCE_DIR%" "%BACKUP_TARGET%" /MIR /DCOPY:T /COPY:DAT /R:3 /W:5 /TEE ^
+:: /XD "%SOURCE_DIR%\backup" "%SOURCE_DIR%\multimedia" /LOG+:"%LOGFILE%"
 
 echo [%DATE% %TIME%] Backup zakoñczony z kodem %ERRORLEVEL% >> "%LOGFILE%"
 if %ERRORLEVEL% GEQ 8 (
@@ -202,7 +202,7 @@ if not defined LATEST_BACKUP (
 echo Najnowszy backup to: "%LATEST_BACKUP%"
 set /p "CONFIRM=Czy chcesz go przywróciæ? (T/N): "
 if /i "%CONFIRM%" NEQ "T" goto MENU
-robocopy "%BACKUP_DIR%\%LATEST_BACKUP%" "%RESTORE_TARGET%" /MIR /R:3 /W:5 /TEE
+:: robocopy "%BACKUP_DIR%\%LATEST_BACKUP%" "%RESTORE_TARGET%" /MIR /R:3 /W:5 /TEE
 echo Przywracanie zakoñczone.
 pause
 goto MENU
@@ -222,7 +222,7 @@ if not exist "%CUSTOM_PATH%" (
 )
 set /p "CONFIRM=Czy chcesz przywróciæ z '%CUSTOM_PATH%'? (T/N): "
 if /i "%CONFIRM%" NEQ "T" goto MENU
-robocopy "%CUSTOM_PATH%" "%RESTORE_TARGET%" /MIR /R:3 /W:5 /TEE
+:: robocopy "%CUSTOM_PATH%" "%RESTORE_TARGET%" /MIR /R:3 /W:5 /TEE
 echo Przywracanie zakoñczone.
 pause
 goto MENU

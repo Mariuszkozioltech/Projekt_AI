@@ -1,3 +1,13 @@
+import logging
+
+logging.basicConfig(
+    filename="C:\\Projekt_AI\\logs\\app.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+logging.info("Skrypt uruchomiony")
+
 import re
 import requests
 from datetime import datetime
@@ -23,7 +33,7 @@ def zapisz_zasade_do_md(sciezka_pliku, tresc_zasady):
     if indeks is not None:
         for j in range(indeks + 1, len(linie)):
             if linie[j].startswith("### "):
-                linie.insert(j, zasada_linia)
+                linie.insert(j, zasada_li nie nia)
                 break
         else:
             linie.append(zasada_linia)

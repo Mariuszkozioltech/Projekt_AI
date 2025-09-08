@@ -1,9 +1,20 @@
+import logging
+
+logging.basicConfig(
+    filename="C:\\Projekt_AI\\logs\\app.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+logging.info("Skrypt uruchomiony")
+
 import os
 import re
 import time
 import json
 import shutil
 import threading
+import yaml
 from datetime import datetime, timedelta
 
 # ---------- Konfiguracja ----------
@@ -69,13 +80,8 @@ def zapisz_rozmowe(uzytkownik=None, ai=None):
         if ai is not None:
             f.write(f"[{teraz_str()}] AI: {ai}\n")
 
-    # Unikalna kopia pliku rozmowy w archiwum
     arch_name = f"{os.path.splitext(os.path.basename(aktualny_plik_rozmowy))[0]}_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.md"
-    shutil.copy(
-        aktualny_plik_rozmowy,
-        os.path.join(ARCHIWUM_DIR, arch_name)
-    )
-
+    shutil.copy(aktualny_plik_rozmowy, os.path.join(ARCHIWUM_DIR, arch_name))
     ostatni_wpis_czas = teraz
 
 def dzien_plik():
@@ -109,11 +115,14 @@ def zapisz_notatke(tresc, pokaz_komunikaty=True):
 # ---------- Autozapis ----------
 def autozapis_loop():
     while True:
-        time.sleep(INTERVAL)
-        ts = teraz_str()
-        zapisz_notatke("🕒 Automatyczny zapis (heartbeat).", pokaz_komunikaty=False)
-        zapisz_rozmowe(uzytkownik="(autozapis)")
-        print(f"[{ts}] ⏱ Autozapis wykonany.")
+        try:
+            time.sleep(INTERVAL)
+            ts = teraz_str()
+            zapisz_notatke("🕒 Automatyczny zapis (heartbeat).", pokaz_komunikaty=False)
+            zapisz_rozmowe(uzytkownik="(autozapis)")
+            print(f"[{ts}] ⏱ Autozapis wykonany.")
+        except Exception as e:
+            print(f"⚠️ Błąd autozapisu: {e}")
 
 # ---------- Parsowanie komend ----------
 RE_ZASADA = re.compile(
@@ -164,5 +173,74 @@ def tryb_ciagly():
             zapisz_notatke("🕒 Ręczny zapis (pusta linia).", pokaz_komunikaty=False)
             zapisz_rozmowe(uzytkownik="(pusta linia)")
 
+# ---------- Etapy projektu ----------
+ETAPY_PATH = "C:/Projekt_AI/etapy.yaml"
+LOG_ETAPY = "C:/Projekt_AI/logs/etapy.log"
+
+def wczytaj_etapy():
+    try:
+        with open(ETAPY_PATH, "r", encoding="utf-8") as f:
+            return yaml.safe_load(f)
+    except Exception as e:
+        print(f"⚠️ Błąd wczytywania etapów: {e}")
+        return []
+
+def zapisz_log_etapow(wiadomosc):
+    os.makedirs(os.path.dirname(LOG_ETAPY), exist_ok=True)
+    with open(LOG_ETAPY, "a", encoding="utf-8") as f:
+        f.write(f"[{teraz_str()}] {wiadomosc}\n")
+
+def sprawdz_etapy():
+    etapy = wczytaj_etapy()
+    if not etapy:
+        print(⚠️ Brak etapów do analizy.")
+        return
+
+    print("📋 Status etapów:")
+    for etap in etapy:
+        status = etap.get("status", "brak")
+        nazwa = etap.get("nazwa", "Nieznany etap")
+        if status == "todo":
+            print(f"🔧 Do zrobienia: {nazwa}")
+        elif status == "in_progress":
+            print(f"🔄 W trakcie: {nazwa}")
+        elif status == "done":
+            print(f"✅ Ukończono: {nazwa}")
+        else:
+            print(f"❓ Nieznany status: {nazwa}")
+        zapisz_log_etapow(f"{etap.get('id', 'brak')} – {status} – {nazwa}")
+
+def sugeruj_kolejny_krok(etapy):
+    priorytety = {"wysoki": 3, "sredni": 2, "niski": 1}
+    kandydaci = []
+
+    for etap in etapy:
+        status = etap.get("status", "brak")
+        if status != "todo":
+            continue
+        priorytet = etap.get("priorytet", "sredni")
+        waga = priorytety.get(priorytet, 2)
+        kandydaci.append((waga, etap))
+
+    if not kandydaci:
+        print("✅ Wszystkie etapy wykonane lub w trakcie.")
+        return
+
+    kandydaci.sort(reverse=True)
+    najlepszy = kandydaci[0][1]
+    print(f"\n💡 Sugerowany kolejny krok: {najlepszy['nazwa']}")
+    print(f"📌 Status: {najlepszy['status']} | Priorytet: {najlepszy.get('priorytet', 'sredni')}")
+    print(f"📝 Opis: {najlepszy.get('opis', 'Brak opisu')}")
+    zapisz_log_etapow(f"Sugestia: {najlepszy['id']} – {najlepszy['nazwa']}")
+
+def uruchom_asystenta():
+    etapy = wczytaj_etapy()
+    if not etapy:
+        print("⚠️ Nie udało się wczytać etapów.")
+        return
+    sprawdz_etapy()
+    sugeruj_kolejny_krok(etapy)
+
+# ---------- Start programu ----------
 if __name__ == "__main__":
-    tryb_ciagly()
+    uruchom_asystenta()

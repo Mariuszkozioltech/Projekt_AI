@@ -1,0 +1,65 @@
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\sebastian_ibkr\Sebastian_ibkr_test.csv
+✅ Przetworzono plik: Sebastian_ibkr_test.csv dla profilu: sebastian_ibkr
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\jolka_ibkr\jolka_ibkr_trading_2027.csv
+✅ Przetworzono plik: jolka_ibkr_trading_2027.csv dla profilu: jolka_ibkr
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\sebastian_ibkr\Sebastian_ibkr_trading_2026.csv
+✅ Przetworzono plik: Sebastian_ibkr_trading_2026.csv dla profilu: sebastian_ibkr
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\ibkr\ibkr_trading_2028.csv
+✅ Przetworzono plik: ibkr_trading_2028.csv dla profilu: ibkr
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\sebastian_ibkr\Sebastian_ibkr_test.csv
+✅ Przetworzono plik: Sebastian_ibkr_test.csv dla profilu: sebastian_ibkr
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\jolka_ibkr\jolka_ibkr_trading_2027.csv
+✅ Przetworzono plik: jolka_ibkr_trading_2027.csv dla profilu: jolka_ibkr
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\sebastian_ibkr\Sebastian_ibkr_trading_2026.csv
+✅ Przetworzono plik: Sebastian_ibkr_trading_2026.csv dla profilu: sebastian_ibkr
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\ibkr\ibkr_trading_2024.csv
+❌ Błąd: Error tokenizing data. C error: Expected 1 fields in line 11, saw 2
+
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\ibkr\ibkr_trading_2024.csv
+✅ Przetworzono plik: ibkr_trading_2024.csv dla profilu: ibkr
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\ibkr\ibkr_2025\ibkr_2025.csv
+❌ Błąd parsera dla ibkr_2025.csv: 'DataFrame' object has no attribute 'str'
+🛑 Zatrzymano watcher.
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\ibkr\ibkr_2025\ibkr_2025.csv
+❌ Błąd parsera dla ibkr_2025.csv: 'DataFrame' object has no attribute 'str'
+🛑 Zatrzymano watcher.
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\ibkr\ibkr_trading_2025\ibkr_trading_2025.csv
+❌ Błąd parsera dla ibkr_trading_2025.csv: 'DataFrame' object has no attribute 'str'
+🛑 Zatrzymano watcher.
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\ibkr\ibkr_2025\ibkr_2025.csv
+❌ Błąd parsera dla ibkr_2025.csv: 'DataFrame' object has no attribute 'str'
+📂 Przeniesiono do RAW: C:\Users\mariu\data\raw\ibkr\ibkr_trading_2026\ibkr_trading_2026.csv
+✅ Przetworzono plik: ibkr_trading_2026.csv (profil: ibkr)
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+👀 Monitoruję folder: C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zasady systemu</title>
+  <style>
+    body { font-family: Arial; margin: 40px; background: #f4f4f4; }
+    h1 { color: #333; }
+    .zasada { background: #fff; padding: 10px; margin: 10px 0; border-left: 4px solid #0078D7; position: relative; }
+    .usun { position: absolute; right: 10px; top: 10px; background: #e00; color: #fff; border: none; padding: 5px; cursor: pointer; }
+    input, button { padding: 8px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>📋 Lista zasad</h1>
+  <h1>📌 Etapy projektu AI</h1>
+  <button onclick="zaproponujKrok()">💡 Zaproponuj kolejny krok</button>
+  <div id="sugestia" style="margin-top: 20px; font-weight: bold;"></div>
+  <h1>📌 Etapy projektu AI</h1>
+  <button onclick="zaproponujKrok()">💡 Zaproponuj kolejny krok</button>
+  <div id="sugestia" style="margin-top: 20px; font-weight: bold;"></div>
+  <div id="etapy">🔍 Tu pojawią się etapy projektu AI</div>
+  <div id="etapy"></div>
+  <div id="lista"></div>
+
+  <h2>➕ Dodaj nową zasadę</h2>
+  <input type="text" id="tresc" placeholder="Treść zasady">
+  <button onclick="dodaj()">Dodaj</button>
+  <h2>⚙️ Wykonaj makro</h2>
+  <button onclick="wykonajMakro()">Wykonaj makro 'sprawdz_panel'</button>
+
+
+  <script>
+    async function pobierz() {
+      const res = await fetch("http://127.0.0.1:8000/zasady");
+      const zasady = await res.json();
+      const lista = document.getElementById("lista");
+      lista.innerHTML = "";
+      zasady.forEach(z => {
+        const div = document.createElement("div");
+        div.className = "zasada";
+        div.innerHTML = `
+          <strong>${z.czas}</strong><br>${z.tresc}
+          <button class="usun" onclick="usun('${z.czas}')">🗑️ Usuń</button>
+        `;
+        lista.appendChild(div);
+      });
+    }
+
+    async function dodaj() {
+      const tresc = document.getElementById("tresc").value;
+      const czas = new Date().toISOString();
+      const zasada = { czas, tresc };
+      await fetch("http://127.0.0.1:8000/dodaj_zasade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ilosc: 1, zasady: [zasada] })
+      });
+      document.getElementById("tresc").value = "";
+      pobierz();
+    }
+
+    async function usun(czas) {
+      await fetch("http://127.0.0.1:8000/usun_zasade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ czas })
+      });
+      pobierz();
+    }
+
+    pobierz();
+  
+  // ... Twoje istniejące funkcje
+
+  async function pobierzEtapy() {
+    const res = await fetch("http://127.0.0.1:5000/etapy");
+    const etapy = await res.json();
+    const container = document.getElementById("etapy");
+    container.innerHTML = "";
+
+    etapy.forEach(etap => {
+      const div = document.createElement("div");
+      div.className = "zasada";
+      div.innerHTML = `
+        <strong>${etap.id} – ${etap.nazwa}</strong><br>
+        Status: 
+        <select onchange="zmienStatus('${etap.id}', this.value)">
+          <option value="todo" ${etap.status === "todo" ? "selected" : ""}>🟠 Do zrobienia</option>
+          <option value="in_progress" ${etap.status === "in_progress" ? "selected" : ""}>🔵 W trakcie</option>
+          <option value="done" ${etap.status === "done" ? "selected" : ""}>🟢 Ukończono</option>
+        </select>
+        Priorytet: 
+        <select onchange="zmienPriorytet('${etap.id}', this.value)">
+          <option value="wysoki" ${etap.priorytet === "wysoki" ? "selected" : ""}>🔴 Wysoki</option>
+          <option value="sredni" ${etap.priorytet === "sredni" ? "selected" : ""}>🟡 Średni</option>
+          <option value="niski" ${etap.priorytet === "niski" ? "selected" : ""}>⚪ Niski</option>
+        </select>
+        <br><em>${etap.opis || "Brak opisu"}</em>
+      `;
+      container.appendChild(div);
+    });
+  }
+  async function zaproponujKrok() {
+  const res = await fetch("http://127.0.0.1:5000/etapy");
+  const etapy = await res.json();
+
+  const priorytety = { "wysoki": 3, "sredni": 2, "niski": 1 };
+  const kandydaci = etapy
+    .filter(e => e.status === "todo")
+    .map(e => ({ waga: priorytety[e.priorytet] || 2, etap: e }))
+    .sort((a, b) => b.waga - a.waga);
+
+  const div = document.getElementById("sugestia");
+  if (kandydaci.length === 0) {
+    div.innerText = "✅ Wszystkie etapy wykonane lub w trakcie.";
+    return;
+  }
+
+  const najlepszy = kandydaci[0].etap;
+  div.innerHTML = `
+    💡 <strong>${najlepszy.nazwa}</strong><br>
+    📌 Status: ${najlepszy.status} | Priorytet: ${najlepszy.priorytet}<br>
+    📝 ${najlepszy.opis || "Brak opisu"}
+  `;
+}
+
+async function zmienStatus(id, status) {
+    await fetch("http://127.0.0.1:5000/update-status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status })
+    });
+    pobierzEtapy();
+  }
+  async function zmienPriorytet(id, priorytet) {
+    await fetch("http://127.0.0.1:5000/update-priorytet", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, priorytet })
+    });
+    pobierzEtapy();
+  }
+  async function pobierzEtapy() {
+  const res = await fetch("http://127.0.0.1:5000/etapy");
+  const etapy = await res.json();
+  const container = document.getElementById("etapy");
+  container.innerHTML = "";
+
+  etapy.forEach(etap => {
+    const div = document.createElement("div");
+    div.className = "zasada";
+    div.innerHTML = `
+      <strong>${etap.id} – ${etap.nazwa}</strong><br>
+      Status: 
+      <select onchange="zmienStatus('${etap.id}', this.value)">
+        <option value="todo" ${etap.status === "todo" ? "selected" : ""}>🟠 Do zrobienia</option>
+        <option value="in_progress" ${etap.status === "in_progress" ? "selected" : ""}>🔵 W trakcie</option>
+        <option value="done" ${etap.status === "done" ? "selected" : ""}>🟢 Ukończono</option>
+      </select>
+      Priorytet: 
+      <select onchange="zmienPriorytet('${etap.id}', this.value)">
+        <option value="wysoki" ${etap.priorytet === "wysoki" ? "selected" : ""}>🔴 Wysoki</option>
+        <option value="sredni" ${etap.priorytet === "sredni" ? "selected" : ""}>🟡 Średni</option>
+        <option value="niski" ${etap.priorytet === "niski" ? "selected" : ""}>⚪ Niski</option>
+      </select>
+      <br><em>${etap.opis || "Brak opisu"}</em>
+    `;
+    container.appendChild(div);
+  });
+}
+
+async function zmienStatus(id, status) {
+  await fetch("http://127.0.0.1:5000/update-status", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, status })
+  });
+  pobierzEtapy();
+}
+
+async function zmienPriorytet(id, priorytet) {
+  await fetch("http://127.0.0.1:5000/update-priorytet", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, priorytet })
+  });
+  pobierzEtapy();
+}
+
+async function zaproponujKrok() {
+  const res = await fetch("http://127.0.0.1:5000/etapy");
+  const etapy = await res.json();
+
+  const priorytety = { "wysoki": 3, "sredni": 2, "niski": 1 };
+  const kandydaci = etapy
+    .filter(e => e.status === "todo")
+    .map(e => ({ waga: priorytety[e.priorytet] || 2, etap: e }))
+    .sort((a, b) => b.waga - a.waga);
+
+  const div = document.getElementById("sugestia");
+  if (kandydaci.length === 0) {
+    div.innerText = "✅ Wszystkie etapy wykonane lub w trakcie.";
+    return;
+  }
+
+  const najlepszy = kandydaci[0].etap;
+  div.innerHTML = `
+    💡 <strong>${najlepszy.nazwa}</strong><br>
+    📌 Status: ${najlepszy.status} | Priorytet: ${najlepszy.priorytet}<br>
+    📝 ${najlepszy.opis || "Brak opisu"}
+  `;
+}
+
+  // Wywołanie obu funkcji przy starcie
+  pobierz();
+  pobierzEtapy();
+</script>
+</body>
+</html>

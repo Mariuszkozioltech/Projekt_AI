@@ -1,0 +1,8 @@
+typ_projektu: "AI-asystent"
+cele:
+  - "Zbudować panel do zarządzania etapami"
+  - "Zintegrować pamięć z backendem"
+  - "Automatyzować oznaczanie etapów"
+priorytety:
+  - "Pamięć musi działać jako pierwsza"
+  - "Etapy muszą być widoczne i edytowalne"

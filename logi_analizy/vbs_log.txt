@@ -1,0 +1,11 @@
+  File "C:\Projekt_AI\tools\dodaj_logowanie.py", line 52
+    return "b³êdy"", "Pominiêto w³asny plik"
+                                           ^
+SyntaxError: unterminated string literal (detected at line 52)
+âœ… Skrypt uruchomiony z Harmonogramu
+âœ… Skrypt uruchomiony z Harmonogramu
+âœ… Skrypt uruchomiony z Harmonogramu
+âœ… Skrypt uruchomiony z Harmonogramu
+âœ… Skrypt uruchomiony z Harmonogramu
+âœ… Skrypt uruchomiony z Harmonogramu
+âœ… Skrypt uruchomiony z Harmonogramu

@@ -1,0 +1,7 @@
+﻿{
+  "cards": [
+    {"id":"whatsapp","name":"WhatsApp","icon":"🟢","rules":{"autoReply":false,"keywords":[],"notes":""}},
+    {"id":"outlook","name":"Outlook","icon":"📧","rules":{"autoReply":false,"keywords":[],"notes":""}},
+    {"id":"messenger","name":"Messenger","icon":"💬","rules":{"autoReply":false,"keywords":[],"notes":""}}
+  ]
+}

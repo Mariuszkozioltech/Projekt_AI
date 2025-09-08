@@ -1,0 +1,409 @@
+etapy:
+- id: A1
+  kryteria_akceptacji:
+  - Foldery utworzone i dostępne
+  - Czat zapisany w pliku
+  - Cel projektu zapisany w dokumentacji
+  nazwa: Przygotowanie środowiska i materiałów startowych
+  opis: 'Przygotowanie struktury projektu, narzędzi oraz dokumentacji. Ustalenie celu
+    nadrzędnego i miejsca przechowywania danych.
+
+    '
+  podpunkty:
+  - Zarchiwizuj dotychczasowy czat – skopiuj całą rozmowę do pliku tekstowego
+  - 'Utwórz strukturę folderów: Projekt_AI/Etap1_Podstawy, Projekt_AI/Dane, Projekt_AI/Scenariusze'
+  - 'Przygotuj narzędzia: edytor tekstu, arkusz kalkulacyjny, notatnik fizyczny'
+  - Zainstaluj opcjonalne oprogramowanie do zarządzania projektem (np. Trello, Notion)
+  - Ustal miejsce głównej dokumentacji – gdzie będą trafiać kolejne etapy
+  - Zdefiniuj cel nadrzędny projektu – jedno lub dwa zdania podsumowujące
+  priorytet: sredni
+  status: done
+- id: A2
+  kryteria_akceptacji:
+  - Plik B_asystent.py uruchamia się bez błędów
+  - Sugestie generowane są na podstawie statusów etapów
+  - Logi działania zapisują się poprawnie
+  - Zapytania do Copilota są wysyłane i odbierane
+  nazwa: Szkielet AI-asystenta – logika B_asystent.py
+  opis: 'Stworzenie głównego pliku sterującego pracą AI-asystenta. Plik B_asystent.py
+    będzie analizował etapy, foldery, logi i pliki konfiguracyjne, by podpowiadać
+    kolejne kroki, zgłaszać błędy i komunikować się z Copilotem.
+
+    '
+  podpunkty:
+  - 'Wczytaj pliki: etapy.yaml, config.json, logi z folderu logs/'
+  - Zbuduj funkcję sprawdzającą status każdego etapu
+  - 'Dodaj logikę generowania sugestii: ''Zrób X'', ''Brakuje Y'', ''Zgłoś błąd'''
+  - Zintegruj z endpointem /ask – wysyłanie zapytania do Copilota
+  - 'Dodaj obsługę błędów: brak pliku, niepoprawna konfiguracja, puste pole'
+  - Zapisuj logi działania AI do osobnego pliku (np. logs/asystent.log)
+  priorytet: wysoki
+  status: in_progress
+- id: A3
+  kryteria_akceptacji:
+  - Panel uruchamia się lokalnie i pokazuje wszystkie etapy
+  - Zmiana statusu etapu działa i zapisuje się poprawnie
+  - Logi są widoczne i aktualizowane na bieżąco
+  - Panel działa w przeglądarce bez błędów
+  nazwa: Panel MVP – kontrola etapów i logów
+  opis: 'Stworzenie prostego panelu www, który umożliwia przeglądanie etapów projektu,
+    ich statusów oraz logów działania AI. Panel będzie podstawowym interfejsem użytkownika
+    do zarządzania postępem prac.
+
+    '
+  podpunkty:
+  - 'Zaprojektuj layout panelu: nagłówek, lista etapów, przyciski akcji'
+  - Wyświetl etapy z etapy.yaml z kolorami statusów (✅, 🔄, ❌)
+  - 'Dodaj przyciski: Edytuj, Usuń, Oznacz jako wykonane, Resetuj'
+  - Wyświetl logi z pliku logs/app.log w osobnej sekcji
+  - Dodaj możliwość filtrowania etapów po statusie
+  - Zintegruj panel z backendem (FastAPI/Flask) – pobieranie i aktualizacja danych
+  priorytet: wysoki
+  status: todo
+- id: A4
+  kryteria_akceptacji:
+  - Pliki są poprawnie wczytywane i analizowane
+  - Źródła trafiają do pamięci i są widoczne w indeksie
+  - Wyszukiwanie działa po słowie kluczowym i kontekście
+  - Panel pokazuje listę dokumentów z datą dodania i tagami
+  nazwa: Integracja z pamięcią i plikami projektu
+  opis: 'Połączenie AI-asystenta z plikami, folderami i pamięcią projektu. Dzięki
+    temu system będzie mógł analizować zawartość, wykrywać zmiany, zapamiętywać źródła
+    i korzystać z nich w analizach.
+
+    '
+  podpunkty:
+  - 'Zdefiniuj foldery pamięci: memory/, uploads/, cache/'
+  - Skonfiguruj plik config.json z lokalizacjami folderów
+  - 'Dodaj obsługę plików: .txt, .pdf, .docx, .csv'
+  - Zintegruj z bazą wektorową (np. FAISS, ChromaDB, SQLite)
+  - Zbuduj funkcję dodawania źródeł do pamięci (URL, plik, notatka)
+  - Dodaj indeksowanie i wyszukiwanie kontekstowe
+  - 'Zapisuj metadane: tytuł, autor, data, tagi'
+  priorytet: sredni
+  status: todo
+- id: A5
+  kryteria_akceptacji:
+  - Plik policies.yaml zawiera min. 5 reguł i 3 checklisty
+  - Makra działają poprawnie na przykładowych danych
+  - AI stosuje reguły przy generowaniu sugestii
+  - Panel pokazuje listę aktywnych reguł i ich status
+  nazwa: Reguły podpowiedzi i logika decyzji AI
+  opis: 'Dodanie zestawu reguł, które pozwolą AI podejmować decyzje, sugerować kolejne
+    kroki i zgłaszać niezgodności. Reguły będą zapisane w policies.yaml i wykorzystywane
+    przez B_asystent.py.
+
+    '
+  podpunkty:
+  - Stwórz plik policies.yaml z listą reguł i warunków
+  - 'Zdefiniuj zasady stylu odpowiedzi: krótko/długo, liczby, cytaty'
+  - 'Dodaj reguły eskalacji: kiedy zgłaszać błąd, kiedy prosić o pomoc'
+  - Zbuduj checklisty dla typowych zadań (np. analiza newsów, ocena spółki)
+  - 'Dodaj makra poleceń: np. ''przesiej linki'', ''porównaj A/B'', ''zrób skrót'''
+  - Zintegruj reguły z B_asystent.py – AI ma je znać i stosować
+  priorytet: sredni
+  status: todo
+- id: A6
+  kryteria_akceptacji:
+  - AI wykrywa min. 3 typy błędów (brak pliku, zły status, puste pole)
+  - Sugestie są trafne i zgodne z logiką projektu
+  - Panel działa stabilnie i pokazuje aktualne informacje
+  - Makra wykonują się poprawnie na danych testowych
+  nazwa: Testowanie działania AI na danych projektu
+  opis: 'Przeprowadzenie testów funkcjonalnych AI-asystenta na rzeczywistych danych
+    z projektu. Celem jest sprawdzenie, czy system poprawnie analizuje etapy, logi,
+    pliki i generuje trafne sugestie.
+
+    '
+  podpunkty:
+  - 'Wgraj przykładowe pliki do folderów: logs/, uploads/, memory/'
+  - Uruchom B_asystent.py i sprawdź, czy wykrywa statusy etapów
+  - Sprawdź, czy AI zgłasza brakujące pliki lub błędy konfiguracji
+  - Zadaj pytanie przez /ask i oceń jakość odpowiedzi
+  - Przetestuj makra poleceń na danych testowych
+  - Sprawdź, czy panel pokazuje aktualne dane i logi
+  priorytet: sredni
+  status: todo
+- id: A7
+  kryteria_akceptacji:
+  - Zapytania są poprawnie wysyłane i odbierane
+  - Odpowiedzi są trafne i zapisują się w logach
+  - Panel umożliwia zadanie pytania z kontekstem
+  - Historia komunikacji jest dostępna i czytelna
+  nazwa: Integracja z Copilotem i komunikacja zewnętrzna
+  opis: 'Połączenie AI-asystenta z zewnętrznym interfejsem Copilota oraz kanałami
+    komunikacji. Dzięki temu system będzie mógł zadawać pytania, odbierać odpowiedzi
+    i reagować na dane w czasie rzeczywistym.
+
+    '
+  podpunkty:
+  - Zintegruj B_asystent.py z endpointem /ask
+  - Zbuduj funkcję wysyłania zapytania z kontekstem (etap, plik, log)
+  - Odbieraj odpowiedź i zapisuj ją w logach oraz pamięci
+  - Dodaj możliwość zadawania pytań z panelu (przycisk 'Zadaj pytanie Copilotowi')
+  - Zapisuj historię komunikacji w osobnym pliku (np. logs/copilot.log)
+  - Dodaj opcję ręcznego doprecyzowania pytania przed wysłaniem
+  priorytet: sredni
+  status: todo
+- id: A8
+  kryteria_akceptacji:
+  - Panel pokazuje szczegóły każdego etapu po kliknięciu
+  - Checklisty są interaktywne i zapisują stan
+  - Edycja opisu i podpunktów działa poprawnie
+  - Zmiany są widoczne natychmiast po zapisaniu
+  nazwa: Rozszerzenie panelu o szczegóły etapów i checklisty
+  opis: 'Rozbudowa panelu głównego o możliwość podglądu szczegółów każdego etapu,
+    w tym pełnego opisu, listy podpunktów oraz checklisty kryteriów akceptacji. Umożliwi
+    to dokładne śledzenie postępu i planowanie kolejnych działań.
+
+    '
+  podpunkty:
+  - Dodaj możliwość kliknięcia w etap, by otworzyć jego szczegóły
+  - Wyświetl pełny opis, podpunkty i kryteria akceptacji
+  - Dodaj checkboxy przy każdym podpunkcie – do odhaczania wykonanych zadań
+  - Zapisuj stan checklisty w pamięci lokalnej lub pliku
+  - Dodaj możliwość edycji opisu i podpunktów z poziomu panelu
+  - Zintegruj z backendem – aktualizacja danych po każdej zmianie
+  priorytet: sredni
+  status: todo
+- id: A9
+  kryteria_akceptacji:
+  - Panel pokazuje aktualne statystyki projektu
+  - Wizualizacja działa poprawnie i jest czytelna
+  - Dane aktualizują się po każdej zmianie statusu
+  - Sekcja 'Ostatnie zmiany' pokazuje historię działań
+  nazwa: Wizualizacja postępu i statystyki projektu
+  opis: 'Dodanie do panelu głównego funkcji wizualizacji postępu prac nad projektem.
+    Statystyki będą pokazywać liczbę wykonanych etapów, zadań w toku, błędów oraz
+    czas realizacji. Ułatwi to monitorowanie i planowanie.
+
+    '
+  podpunkty:
+  - 'Zliczaj etapy według statusu: done, in_progress, todo'
+  - Wyświetl wykres słupkowy lub kołowy z podziałem na statusy
+  - Dodaj licznik błędów wykrytych przez AI
+  - Pokazuj średni czas realizacji etapu (na podstawie logów)
+  - Dodaj sekcję 'Ostatnie zmiany' z datą i typem zdarzenia
+  - Zintegruj z backendem – aktualizacja danych w czasie rzeczywistym
+  priorytet: sredni
+  status: todo
+- id: A10
+  kryteria_akceptacji:
+  - AI wykrywa min. 5 typów błędów strukturalnych
+  - Zgłoszenia błędów są czytelne i trafne
+  - Panel umożliwia uruchomienie i podgląd wyników diagnostyki
+  - Logi zawierają pełną historię wykrytych problemów
+  nazwa: Tryb diagnostyczny i wykrywanie błędów w projekcie
+  opis: 'Dodanie trybu diagnostycznego, który pozwala AI wykrywać błędy, niezgodności
+    i braki w strukturze projektu. System będzie analizował pliki, foldery, konfiguracje
+    i logi, by zgłaszać problemy i proponować ich rozwiązania.
+
+    '
+  podpunkty:
+  - Zbuduj funkcję sprawdzającą obecność wymaganych plików i folderów
+  - Dodaj analizę poprawności plików YAML/JSON (np. etapy.yaml, config.json)
+  - Sprawdź spójność statusów etapów z rzeczywistym postępem
+  - Zidentyfikuj puste pola, brakujące dane, niepoprawne formaty
+  - Zgłaszaj błędy w panelu oraz zapisuj je w logach
+  - Dodaj możliwość uruchomienia trybu diagnostycznego z panelu
+  priorytet: sredni
+  status: todo
+- id: A11
+  kryteria_akceptacji:
+  - Min. 3 automatyzacje działają stabilnie przez 7 dni
+  - Edycja harmonogramu w panelu trwa <1 min
+  - Raporty dostarczane bez opóźnień >60 s
+  - Log z potwierdzeniem wykonania każdego zadania jest dostępny
+  nazwa: Harmonogramy zadań i automatyzacja rutynowych działań
+  opis: 'Dodanie mechanizmu automatyzacji powtarzalnych zadań w projekcie. AI będzie
+    wykonywać określone działania o ustalonej porze lub po spełnieniu warunku, bez
+    potrzeby ręcznej interwencji.
+
+    '
+  podpunkty:
+  - 'Zidentyfikuj rutynowe procesy: przegląd newsów, raport rynkowy, podsumowanie
+    dnia'
+  - Zbuduj harmonogram zadań (CRON-like scheduler) w backendzie
+  - Dodaj możliwość ustawienia cyklicznego lub jednorazowego uruchomienia
+  - Wyświetl listę aktywnych automatyzacji w panelu
+  - Dodaj opcję pauzy/wznowienia automatyzacji
+  - Zintegruj z triggerami – automatyczne raporty po wykryciu zdarzenia
+  priorytet: sredni
+  status: todo
+- id: A12
+  kryteria_akceptacji:
+  - Min. 2 tryby symulacji działają stabilnie
+  - Wyniki testów są zapisywane i możliwe do pobrania
+  - Symulacja miesiąca danych trwa <30 s
+  - Przełączanie między trybem realnym a testowym działa z poziomu panelu
+  nazwa: Tryb symulacji i testów działania AI
+  opis: 'Dodanie trybu testowego, który pozwala sprawdzić działanie AI bez ryzyka.
+    Symulacje będą oparte na danych historycznych lub sztucznych, umożliwiając ocenę
+    skuteczności decyzji i strategii przed wdrożeniem w realnym środowisku.
+
+    '
+  podpunkty:
+  - Stwórz oddzielną bazę danych i pamięć wektorową do testów
+  - Zbuduj symulowane API rynkowe i newsowe z feedem danych archiwalnych
+  - 'Dodaj tryby: backtest, forward-test, what-if'
+  - 'Zdefiniuj metryki oceny: trafność decyzji, zysk/strata, czas reakcji'
+  - 'Zaprojektuj interfejs w panelu: wybór trybu, zakres dat, porównanie strategii'
+  - Dodaj możliwość pobrania wyników testów jako PDF/HTML
+  priorytet: sredni
+  status: todo
+- id: A13
+  kryteria_akceptacji:
+  - Wszystkie działania mieszczą się w zaakceptowanej liście i progach
+  - 100% decyzji jest zapisanych w logach z pełnym kontekstem
+  - Możliwość wyłączenia autonomii jednym przyciskiem
+  - Min. 1 miesiąc stabilnej pracy bez naruszenia reguł
+  nazwa: Rozszerzona autonomia AI z kontrolą bezpieczeństwa
+  opis: 'Dodanie modułu, który pozwala AI wykonywać wybrane zadania samodzielnie —
+    tylko w ramach zatwierdzonych reguł i progów bezpieczeństwa. System będzie działał
+    autonomicznie, ale pod Twoim nadzorem.
+
+    '
+  podpunkty:
+  - Zdefiniuj listę dozwolonych działań (np. wysyłka raportów, ustawianie alertów)
+  - Określ wartości progowe, po których AI może podjąć decyzję samodzielnie
+  - 'Dodaj mechanizmy bezpieczeństwa: bezpieczne słowo, limity częstotliwości'
+  - Zapisuj pełny log każdej decyzji i jej kontekstu
+  - 'Zbuduj tryby pracy: autonomia częściowa i warunkowa'
+  - 'Stwórz panel nadzoru: lista działań, ocena skuteczności, cofanie decyzji'
+  priorytet: sredni
+  status: todo
+- id: A14
+  kryteria_akceptacji:
+  - AI realizuje min. 90% zaplanowanych celów w zadanym okresie
+  - System samodzielnie inicjuje działania i dokumentuje ich przebieg
+  - Reaguje na zmiany w otoczeniu w czasie <24 h
+  - Raporty strategiczne są kompletne, czytelne i użyteczne
+  nazwa: Pełna autonomia strategiczna i zarządzanie celem nadrzędnym
+  opis: 'Umożliwienie AI samodzielnego działania w ramach projektu — nie tylko reagowania
+    na bieżące zdarzenia, ale też realizowania długoterminowej strategii, optymalizacji
+    działań i monitorowania ryzyk. System będzie działał jak niezależny członek zespołu
+    zarządzającego.
+
+    '
+  podpunkty:
+  - Zdefiniuj cele krótko-, średnio- i długoterminowe projektu
+  - Dodaj mechanizm dynamicznego dostosowywania planów na podstawie wyników i zmian
+    w otoczeniu
+  - Zbuduj logikę priorytetyzacji zasobów (np. moc obliczeniowa, harmonogramy)
+  - Zaprogramuj AI do inicjowania nowych analiz, badań lub projektów
+  - Dodaj tryb testowania hipotez w symulacji przed wdrożeniem
+  - Stwórz mechanizm samodzielnej korekty strategii przy wykryciu ryzyk lub lepszych
+    możliwości
+  - Generuj okresowe raporty strategiczne z realizacji celów, wniosków i rekomendacji
+  priorytet: sredni
+  status: todo
+- id: B1
+  kryteria_akceptacji:
+  - Dane są poprawnie pobierane i zapisywane
+  - Pliki zawierają aktualne kursy, wolumeny, trendy
+  - Logi pokazują historię pobrań i błędów
+  nazwa: Integracja zewnętrznych danych giełdowych
+  opis: 'Podłączenie API giełdowych i pobieranie danych rynkowych dla wybranych akcji.
+    Dane będą zapisywane lokalnie i wykorzystywane w analizach AI.
+
+    '
+  podpunkty:
+  - 'Wybierz API: Yahoo Finance, Alpha Vantage, Finnhub'
+  - Pobierz dane dla wybranych akcji (np. AAPL, TSLA, SMCI)
+  - Zapisz dane w folderze Dane/zewnetrzne jako JSON lub CSV
+  - Zbuduj funkcję aktualizacji danych w określonych interwałach
+  - Dodaj logi pobierania i ewentualnych błędów
+  priorytet: sredni
+  status: todo
+- id: B2
+  kryteria_akceptacji:
+  - Raport zawiera min. 10 pozycji z obliczonym zyskiem/stratą
+  - Scoring działa i pokazuje różnice między pozycjami
+  - Wyniki są widoczne w panelu
+  - Dane zapisują się poprawnie w folderze analizy
+  nazwa: Analiza Twoich danych + scoring
+  opis: 'Wczytanie Twoich danych transakcyjnych i obliczenie zysku/straty dla każdej
+    pozycji. AI oceni ryzyko i potencjał wzrostu, tworząc raporty i wykresy wspierające
+    decyzje inwestycyjne.
+
+    '
+  podpunkty:
+  - Wczytaj plik ibkr_clean.json z historią transakcji
+  - Oblicz zysk/stratę dla każdej pozycji
+  - Stwórz scoring ryzyka i potencjału wzrostu
+  - Zbuduj raport w formie tabeli lub wykresu
+  - Zapisz wyniki w folderze Dane/analizy
+  - Zintegruj z panelem – podgląd wyników
+  priorytet: sredni
+  status: todo
+- id: B3
+  kryteria_akceptacji:
+  - Model generuje prognozy z min. 70% trafnością na danych testowych
+  - Czas generowania prognozy <5 s
+  - Panel pokazuje wykres + opis + confidence
+  - Możliwość zmiany horyzontu prognozy z panelu
+  nazwa: Model predykcyjny i prognozy rynkowe
+  opis: 'Trening modelu AI do przewidywania kierunku zmian cen akcji na podstawie
+    danych historycznych i Twoich transakcji. Prognozy będą generowane na różne horyzonty
+    czasowe i prezentowane w panelu.
+
+    '
+  podpunkty:
+  - Zbierz dane historyczne i Twoje transakcje
+  - 'Wybierz model ML: regresja, XGBoost, Prophet'
+  - Przeprowadź trening i walidację modelu
+  - Generuj prognozy na 1 dzień, 1 tydzień, 1 miesiąc
+  - Wyświetl prognozy w panelu jako wykres + opis
+  - Dodaj confidence level i czynniki wpływu
+  priorytet: sredni
+  status: todo
+- id: B4
+  kryteria_akceptacji:
+  - Min. 3 typy alertów działają poprawnie
+  - Powiadomienia docierają w czasie <10 s
+  - Rekomendacje są trafne i zgodne z analizą
+  - Panel pokazuje historię alertów i ich skuteczność
+  nazwa: Alerty i rekomendacje inwestycyjne
+  opis: 'Dodanie systemu alertów i rekomendacji, który ostrzega przed ryzykiem i sugeruje
+    działania na podstawie danych rynkowych i analizy AI. Alerty będą wysyłane przez
+    komunikatory lub panel, a rekomendacje będą zawierać konkretne scenariusze.
+
+    '
+  podpunkty:
+  - 'Zdefiniuj progi alertów: spadek >5%, zmiana trendu, słowa kluczowe'
+  - 'Zbuduj system powiadomień: Telegram, Signal, e-mail, panel'
+  - 'Dodaj rekomendacje: Obserwuj, Sprzedaj, Kupuj'
+  - Zintegruj alerty z analizą scoringową i predykcyjną
+  - Dodaj historię alertów i ich skuteczność w panelu
+  - Stwórz testowy alert i wymuszoną porażkę dla sprawdzenia działania
+  priorytet: sredni
+  status: todo
+- id: B5
+  kryteria_akceptacji:
+  - Min. 3 aktywne integracje działają stabilnie przez 48 h
+  - Czas pobrania danych z API <3 s
+  - Brak przerw w działaniu AI przy problemach z API
+  - Możliwość włączenia/wyłączenia integracji w panelu
+  nazwa: Integracje z API zewnętrznymi
+  opis: 'Podłączenie systemu AI do zewnętrznych źródeł danych i usług, umożliwiające
+    automatyczne pobieranie, wysyłanie i wymianę informacji. Dzięki temu AI będzie
+    reagować na dane w czasie rzeczywistym i wykonywać akcje w Twoim imieniu.
+
+    '
+  podpunkty:
+  - 'Zidentyfikuj potrzebne API: giełdowe, newsowe, kalendarze, komunikatory'
+  - 'Zbuduj warstwę integracyjną: moduły łączące AI z wybranymi API'
+  - 'Zabezpiecz połączenia: klucze API w .env, ograniczenia dostępu'
+  - Dodaj kolejki zadań do obsługi wielu zapytań
+  - Zaimplementuj automatyczne retry i obsługę błędów
+  - 'Zintegruj scenariusze użycia: pobieranie danych, wysyłanie raportów, komendy
+    z czatu'
+  priorytet: sredni
+  status: todo
+- ai_sprawdzone: false
+  id: c3
+  nazwa: szybkosc
+  opis: doskonalosc
+  priorytet: wysoki
+  procent: 0
+  status: todo

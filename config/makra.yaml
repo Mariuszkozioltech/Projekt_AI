@@ -1,0 +1,11 @@
+makra:
+  - nazwa: "sprawdz_panel"
+    opis: "Sprawdza folder i plik panelu oraz uruchamia go jeśli nie działa"
+    kroki:
+      - "sprawdz_panel_www"
+      - "sprawdz_panel_www_dzialanie"
+
+  - nazwa: "dodaj_zasade_testowa"
+    opis: "Dodaje przykładową zasadę do systemu"
+    kroki:
+      - "dodaj_zasade_testowa"

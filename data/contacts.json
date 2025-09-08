@@ -1,0 +1,12 @@
+﻿{
+  "people": [
+    {
+      "id": "demo_anna",
+      "name": "Anna",
+      "consent": false,
+      "tags": ["praca"],
+      "notes": ["Lubi konkret i krótkie wiadomości"],
+      "lastInteractions": []
+    }
+  ]
+}

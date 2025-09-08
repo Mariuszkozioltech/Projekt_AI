@@ -1,0 +1,75 @@
+📌 Jak użyć po reinstalacji Windowsa
+Przywróć z backupu folder:
+
+Code
+C:\Projekt_AI
+(wraz z watch_ibkr.py, ibkr_parser.py i resztą projektu).
+
+Sprawdź ścieżkę do Pythona W pliku .bat w linii:
+
+Code
+set PYTHON_PATH=...
+wpisz faktyczną ścieżkę do python.exe w nowym systemie (możesz sprawdzić w PowerShell: where python).
+
+Uruchom .bat jako administrator
+
+Kliknij prawym → „Uruchom jako administrator”.
+
+Utworzy się usługa Watcher_IBKR, ustawi się na automatyczny start i od razu się uruchomi.
+
+Gotowe – watcher działa w tle, reaguje na pliki w:
+
+Code
+C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+
+
+🔹 Co zrobić teraz
+Przygotuj plik instalacyjny Upewnij się, że w C:\Projekt_AI\install_watcher_service.bat masz ten kod z Twoją ścieżką do Pythona:
+
+bat
+@echo off
+REM === KONFIGURACJA ===
+set PYTHON_PATH=C:\Users\mariu\AppData\Local\Programs\Python\Python313\python.exe
+set SCRIPT_PATH=C:\Projekt_AI\PROJEKT\strategia_inwestycyjna\watch_ibkr.py
+set SERVICE_NAME=Watcher_IBKR
+
+REM === TWORZENIE USŁUGI ===
+sc create %SERVICE_NAME% binPath= "\"%PYTHON_PATH%\" \"%SCRIPT_PATH%\"" start= auto
+sc description %SERVICE_NAME% "Automatyczny watcher IBKR - przenosi i przetwarza pliki"
+sc start %SERVICE_NAME%
+
+echo.
+echo ✅ Usługa %SERVICE_NAME% została utworzona i uruchomiona.
+echo Działa w tle i startuje automatycznie przy uruchomieniu systemu.
+pause
+Uruchom instalator jako administrator
+
+Kliknij prawym na install_watcher_service.bat → Uruchom jako administrator.
+
+W oknie powinien pojawić się komunikat:
+
+Code
+✅ Usługa Watcher_IBKR została utworzona i uruchomiona.
+Sprawdź, czy działa
+
+Wciśnij Win + R, wpisz services.msc i Enter.
+
+Na liście znajdź Watcher_IBKR — status powinien być Uruchomiono, typ uruchomienia Automatyczny.
+
+Przetestuj
+
+Wrzuc plik .csv do:
+
+Code
+C:\Users\mariu\OneDrive\Pulpit\Dokument IBKR do przerobienia
+Usługa powinna automatycznie:
+
+utworzyć profil (jeśli nowy),
+
+przenieść plik do `raw
+
+\[profil], - dopisać dane doDane
+
+\[profil], - przenieść oryginał doArchiwum
+
+\[profil]`.

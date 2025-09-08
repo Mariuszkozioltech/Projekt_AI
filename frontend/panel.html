@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>🧠 Panel główny AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Część 2/7 dołączy style.css; na razie minimalny reset, by wszystko czytelnie się układało -->
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --panel: #ffffff;
+      --accent: #0078D7;
+      --border: #e5e7eb;
+      --text: #111827;
+      --muted: #6b7280;
+      --ok: #0a7a2b;
+      --err: #b00020;
+      --shadow: 0 2px 8px rgba(0,0,0,.06);
+      --radius: 10px;
+      --pad: 16px;
+      --chat-width: 380px; /* startowa szerokość czatu ~1/4 szerokości */
+      --sidebar-width: 320px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg); color: var(--text);
+    }
+    header {
+      position: sticky; top: 0; z-index: 20; background: var(--panel); box-shadow: var(--shadow);
+      padding: 14px 18px; display: flex; align-items: center; gap: 16px;
+    }
+    header h1 { margin: 0; font-size: 18px; font-weight: 700; display: flex; gap: 8px; align-items: center; }
+    nav.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+    nav.tabs button {
+      background: #f3f4f6; border: 1px solid var(--border); border-radius: 999px;
+      padding: 8px 12px; cursor: pointer; color: #111;
+    }
+    nav.tabs button.active {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    main { display: grid; grid-template-columns: 1fr; gap: 18px; padding: 18px; }
+    section {
+      background: var(--panel); border: 1px solid var(--border); border-left: 6px solid var(--accent);
+      border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px;
+    }
+    section h2 { margin: 0 0 12px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .row > * { flex: 1 1 220px; }
+    input, textarea, select, button {
+      font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border);
+      background: #fff;
+    }
+    textarea { min-height: 80px; }
+    button { cursor: pointer; background: #111827; color: #fff; border: none; }
+    button.toggle { background: #f3f4f6; color: #111; border: 1px solid var(--border); }
+    .status { margin-top: 6px; font-size: 13px; color: var(--muted); }
+    .status.ok { color: var(--ok); }
+    .status.err { color: var(--err); }
+    .etap, .zasada, .pamiec {
+      margin-bottom: 12px; padding: 12px 14px; border: 1px solid var(--border);
+      background: #fff; position: relative; border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+    .usun {
+      position: absolute; right: 10px; top: 10px; background: #e00; color: #fff; border: none; padding: 5px;
+      border-radius: 6px; cursor: pointer;
+    }
+    .wrap { display: block; }
+    /* Kontener stron/zakładek */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* Pływające przyciski */
+    #chat_toggle, #sidebar_toggle {
+      position: fixed; right: 16px; width: 48px; height: 48px; border-radius: 24px;
+      color: #fff; font-size: 20px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,.2);
+      cursor: pointer; z-index: 10010; display: grid; place-items: center;
+      background: var(--accent);
+    }
+    #chat_toggle { top: 16px; }
+    #sidebar_toggle { top: 74px; background: #111827; }
+
+    /* Panel czatu (prawy, wysuwany, resize) */
+    #chat_panel {
+      position: fixed;
+      top: 0;
+      left: 0; /* zmiana z right: 0 na left: 0 */
+      height: 100vh;
+      width: 0;
+      background: #fff;
+      border-right: 1px solid var(--border); /* zmiana z border-left */
+      box-shadow: 4px 0 12px rgba(0,0,0,.1); /* zmiana kierunku cienia */
+      display: flex;
+      flex-direction: column;
+      transition: width 0.25s ease;
+      z-index: 10000;
+      min-width: 0;
+      overflow: hidden;
+} 
+    }
+    #chat_panel.open { width: var(--chat-width); min-width: 280px; }
+    #chat_header { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    #chat_toolbar { display: flex; gap: 6px; }
+    #chat_resizer {
+      position: absolute;
+      right: -6px; /* zmiana z left na right */
+      top: 0;
+      width: 6px;
+      height: 100%;
+      cursor: ew-resize;
+      background: transparent;
+    }
+    #chat_messages { flex: 1; overflow-y: auto; padding: 12px; background: #fafafa; }
+    #chat_input_row { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 12px; border-top: 1px solid var(--border); }
+    .chat_box { display: flex; flex-direction: column; gap: 8px; }
+    .chat_msg { padding: 10px 14px; border-radius: 12px; max-width: 80%; font-size: 14px; line-height: 1.4; white-space: pre-wrap; border: 1px solid #ddd; }
+    .chat_me { background: #d0e7ff; align-self: flex-end; border-color: #a0c4ff; }
+    .chat_ai { background: #f0f0f0; align-self: flex-start; border-color: #ccc; }
+
+    /* Panel boczny z resizerem (jeśli będziesz chciał użyć) */
+    #sidebar_panel {
+      position: fixed; top: 0; left: 0; height: 100vh; width: 0; background: #fff;
+      border-right: 1px solid var(--border); box-shadow: 4px 0 12px rgba(0,0,0,.08);
+      display: flex; flex-direction: column; transition: width .25s ease; z-index: 9000;
+      min-width: 0; overflow: hidden;
+    }
+    #sidebar_panel.open { width: var(--sidebar-width); min-width: 260px; }
+    #sidebar_header { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    #sidebar_resizer { position: absolute; right: -6px; top: 0; width: 6px; height: 100%; cursor: ew-resize; }
+    #sidebar_content { flex: 1; display: flex; flex-direction: column; padding: 10px; overflow-y: auto; gap: 8px; }
+    #sidebar_history { flex: 1; overflow: auto; border: 1px solid var(--border); padding: 10px; background: #fcfcfc; border-radius: 6px; }
+
+    /* Toastery i logi (placeholdery, rozbudujemy w JS) */
+    #toast { position: fixed; bottom: 16px; right: 16px; background: #111827; color: #fff; padding: 10px 14px; border-radius: 8px; display: none; z-index: 10020; }
+    #diag { position: fixed; bottom: 16px; left: 16px; background: #fff; border: 1px solid var(--border); padding: 8px 10px; border-radius: 8px; box-shadow: var(--shadow); font-size: 12px; color: var(--muted); display: none; z-index: 10020; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🧠 Panel główny projektu AI</h1>
+    <nav class="tabs" id="tabs_nav">
+      <button class="active" data-tab="tab_dashboard">📊 Dashboard</button>
+      <button data-tab="tab_etapy">📋 Etapy</button>
+      <button data-tab="tab_zasady">📜 Zasady</button>
+      <button data-tab="tab_pamiec">🧠 Pamięć</button>
+      <button data-tab="tab_materialy">📚 Materiały</button>
+      <button data-tab="tab_zadania">🧠 Zadania AI</button>
+      <button data-tab="tab_import_zrodla">🌐 Import i źródła</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Dashboard: szybkie akcje, statusy -->
+    <section class="page active" id="tab_dashboard">
+      <h2>📊 Dashboard</h2>
+      <div class="row">
+        <button onclick="zaproponujKrok()">🔍 Zaproponuj kolejny krok</button>
+        <div class="status" id="status_dashboard"></div>
+      </div>
+      <div class="wrap" id="wrap_sugestia">
+        <div id="sugestia"></div>
+      </div>
+
+      <h3>⚙️ Tryb decyzyjny AI</h3>
+      <div class="row">
+        <label><input type="radio" name="trybAI" value="manual" checked> Użytkownik decyduje</label>
+        <label><input type="radio" name="trybAI" value="auto"> AI decyduje samodzielnie</label>
+        <label><input type="radio" name="trybAI" value="auto_pause"> AI decyduje, ale zapauzuj przed wykonaniem</label>
+      </div>
+      <div class="status" id="status_trybAI"></div>
+      <button onclick="zapiszTrybAI()">💾 Zapisz tryb AI</button>
+    </section>
+
+    <!-- Etapy -->
+    <section class="page" id="tab_etapy">
+      <h2>📋 Etapy projektu</h2>
+      <div class="row">
+        <button onclick="dopasujEtapy()">🔄 Dopasuj etapy do projektu</button>
+        <button onclick="zapiszKolejnoscEtapow()">💾 Zapisz kolejność etapów</button>
+        <button class="toggle" id="btn_materialy" onclick="toggleSection('wrap_materialy','btn_materialy')">Zwiń materiały</button>
+      </div>
+      <div id="etapy" ondragover="handleDragOver(event)" ondrop="handleDrop(event)"></div>
+
+      <h3>➕ Dodaj nowy etap</h3>
+      <div class="row">
+        <input type="text" id="id_nowy" placeholder="ID etapu">
+        <input type="text" id="nazwa_nowy" placeholder="Nazwa etapu">
+      </div>
+      <textarea id="opis_nowy" placeholder="Opis etapu"></textarea>
+      <div class="row">
+        <select id="status_nowy">
+          <option value="todo">🟠 Do zrobienia</option>
+          <option value="in_progress">🟡 W trakcie</option>
+          <option value="done">🟢 Ukończono</option>
+        </select>
+        <select id="priorytet_nowy">
+          <option value="niski">⚪ niski</option>
+          <option value="sredni">🟡 średni</option>
+          <option value="wysoki">🔴 wysoki</option>
+        </select>
+      </div>
+      <button onclick="dodajEtap()">➕ Dodaj etap</button>
+
+      <h3>✏️ Edytuj etap</h3>
+      <div class="row">
+        <input type="text" id="id_edytuj" placeholder="ID etapu">
+        <input type="text" id="nazwa_edytuj" placeholder="Nowa nazwa">
+      </div>
+      <textarea id="opis_edytuj" placeholder="Nowy opis"></textarea>
+      <input type="text" id="status_edytuj" placeholder="Status (todo/in_progress/done)">
+      <button onclick="zapiszZmianyEtapu()">💾 Zapisz zmiany</button>
+    </section>
+
+    <!-- Zasady -->
+    <section class="page" id="tab_zasady">
+      <h2>📜 Zasady</h2>
+      <textarea id="tresc_zasady" placeholder="Treść zasady"></textarea>
+      <div class="row">
+        <button onclick="dodajZasade()">➕ Dodaj zasadę</button>
+        <button class="toggle" id="btn_zasady" onclick="toggleSection('wrap_zasady','btn_zasady')">Zwiń</button>
+      </div>
+      <div class="wrap" id="wrap_zasady">
+        <div id="zasady"></div>
+      </div>
+    </section>
+
+    <!-- Pamięć -->
+    <section class="page" id="tab_pamiec">
+      <h2>🧠 Pamięć AI</h2>
+      <div class="row">
+        <input type="text" id="id_pamiec" placeholder="ID wpisu">
+        <input type="text" id="typ_pamiec" placeholder="Typ (np. zasada, etap)">
+      </div>
+      <textarea id="tresc_pamiec" placeholder="Treść wpisu"></textarea>
+      <button onclick="dodajPamiec()">➕ Dodaj wpis do pamięci</button>
+      <div id="pamiec"></div>
+    </section>
+
+    <!-- Materiały -->
+    <section class="page" id="tab_materialy">
+      <h2>📚 Materiały do analizy</h2>
+      <div class="row">
+        <button onclick="pobierzMaterialy()">🔄 Odśwież materiały</button>
+        <button class="toggle" id="btn_materialy_list" onclick="toggleSection('wrap_materialy','btn_materialy_list')">Zwiń</button>
+      </div>
+      <div class="wrap" id="wrap_materialy">
+        <div id="materialy_list"></div>
+        <div class="status" id="status_materialy"></div>
+      </div>
+    </section>
+
+    <!-- Zadania AI -->
+    <section class="page" id="tab_zadania">
+      <h2>🧠 Zadania AI do zatwierdzenia</h2>
+      <div class="row">
+        <button onclick="pobierzZadaniaAI()">🔄 Odśwież zadania</button>
+        <button class="toggle" id="btn_zadania" onclick="toggleSection('wrap_zadania','btn_zadania')">Zwiń</button>
+      </div>
+      <div class="wrap" id="wrap_zadania">
+        <div id="zadaniaAI"></div>
+        <div class="status" id="status_zadania"></div>
+      </div>
+    </section>
+
+    <!-- Import i źródła -->
+    <section class="page" id="tab_import_zrodla">
+      <h2>🌐 Importuj materiał z internetu</h2>
+      <div class="row">
+        <input type="text" id="link_materialu" placeholder="Wklej link do strony..." />
+        <button onclick="importujMaterial()">📥 Pobierz i zapisz</button>
+        <button class="toggle" id="btn_import" onclick="toggleSection('wrap_import','btn_import')">Zwiń</button>
+      </div>
+      <div class="wrap" id="wrap_import">
+        <div id="import_status"></div>
+        <div class="status" id="status_import"></div>
+      </div>
+
+      <h2>🌐 Źródła informacji</h2>
+      <div class="row">
+        <input type="text" id="link_zrodla" placeholder="Wklej link do źródła..." />
+        <button onclick="dodajZrodlo()">➕ Dodaj źródło</button>
+        <button class="toggle" id="btn_zrodla" onclick="toggleSection('wrap_zrodla','btn_zrodla')">Zwiń</button>
+      </div>
+      <div class="wrap" id="wrap_zrodla">
+        <div id="listaZrodel"></div>
+        <div class="status" id="status_zrodla"></div>
+      </div>
+    </section>
+  </main>
+
+ <!-- PRZYCISK CZATU (pozostaje po prawej) -->
+<button id="chat_toggle" title="Otwórz czat">💬</button>
+
+<!-- PANEL CZATU (wysuwany z LEWEJ) -->
+<aside id="chat_panel" aria-label="Rozmowa z AI">
+  <div id="chat_header">
+    <span>🗣️ Rozmowa z AI</span>
+    <div id="chat_toolbar">
+      <!-- Połączenie audio -->
+      <button id="chat_connect" title="Dołącz do rozmowy (audio)">🟢</button>
+      <button id="chat_disconnect" title="Rozłącz rozmowę">🔴</button>
+
+      <!-- Tryby: obserwacja / dostęp do systemu -->
+      <button id="chat_observe_toggle" title="Tryb obserwacji: strona/karty">👁️</button>
+      <button id="chat_system_toggle" title="Dostęp do systemu/pliki">🗂️</button>
+
+      <!-- Załączniki -->
+      <button id="chat_attach" title="Dodaj plik">📎</button>
+
+      <!-- Wyszukiwanie i czyszczenie -->
+      <button id="chat_search" title="Szukaj w historii">🔎</button>
+      <button id="chat_clear" title="Wyczyść widok">🧹</button>
+
+      <!-- Zamknięcie panelu -->
+      <button id="chat_close" title="Zamknij">✖</button>
+    </div>
+  </div>
+
+  <!-- Pasek statusów -->
+  <div id="chat_statusbar">
+    <span id="badge_connect" class="badge off">Audio: wyłączone</span>
+    <span id="badge_observe" class="badge off">Obserwacja: wyłączona</span>
+    <span id="badge_system" class="badge off">System: zablokowany</span>
+  </div>
+
+  <!-- Uchwyt do zmiany szerokości -->
+  <div id="chat_resizer" title="Przeciągnij, aby zmienić szerokość"></div>
+
+  <!-- Strefa przeciągnij–upuść -->
+  <div id="chat_dropzone" aria-label="Przeciągnij pliki tutaj">📂 Przeciągnij tutaj pliki, linki lub tekst…</div>
+
+  <!-- Wiadomości czatu -->
+  <div id="chat_messages" role="log" aria-live="polite" class="chat_box"></div>
+
+  <!-- Pole pisania -->
+  <div id="chat_input_row">
+    <textarea id="chat_input" placeholder="Napisz… (Enter = wyślij, Shift+Enter = nowa linia)"></textarea>
+    <div class="input_actions">
+      <button id="chat_send">Wyślij</button>
+      <button id="chat_send_plus" title="Wyślij i kontynuuj">➕</button>
+    </div>
+  </div>
+</aside>
+
+/* === Panel główny projektu AI — style.css (Część 2/7) === */
+/* Zmienna szerokości paneli możesz nadpisać inline w :root w HTML, jeśli chcesz */
+:root {
+  --bg: #f6f7fb;
+  --panel: #ffffff;
+  --panel-2: #fafafa;
+  --accent: #0078D7;
+  --accent-2: #005aa3;
+  --border: #e5e7eb;
+  --border-2: #d1d5db;
+  --text: #111827;
+  --muted: #6b7280;
+  --ok: #0a7a2b;
+  --warn: #b57500;
+  --err: #b00020;
+  --shadow: 0 2px 8px rgba(0,0,0,.06);
+  --shadow-strong: 0 6px 24px rgba(0,0,0,.12);
+  --radius: 10px;
+  --radius-sm: 8px;
+  --pad: 16px;
+  --gap: 12px;
+
+  --chat-width: 380px;
+  --sidebar-width: 320px;
+}
+
+/* Reset i podstawy */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Nagłówek i zakładki */
+header {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 16px;
+}
+header h1 {
+  margin: 0; font-size: 18px; font-weight: 700;
+  display: flex; gap: 8px; align-items: center;
+}
+nav.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+nav.tabs button {
+  background: #f3f4f6;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer; color: #111;
+  transition: background .15s ease, color .15s ease, border-color .15s ease, transform .05s ease;
+}
+nav.tabs button:hover { transform: translateY(-1px); }
+nav.tabs button:active { transform: translateY(0); }
+nav.tabs button.active {
+  background: var(--accent);
+  color: #fff; border-color: var(--accent);
+}
+
+/* Układ główny */
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  padding: 18px;
+}
+
+/* Sekcje/karty */
+section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+section h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  display: flex; align-items: center; gap: 8px;
+}
+section h3 {
+  margin: 18px 0 10px;
+  font-size: 16px; font-weight: 700;
+}
+
+/* Siatka/wiersze */
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.row > * { flex: 1 1 220px; }
+
+/* Pola i przyciski */
+input, textarea, select, button {
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: #fff;
+}
+textarea { min-height: 80px; }
+select { background-image: linear-gradient(180deg, #fff, #f9fafb); }
+button {
+  cursor: pointer;
+  background: #111827;
+  color: #fff;
+  border: none;
+  transition: transform .05s ease, box-shadow .15s ease, background .12s ease;
+}
+button:hover { box-shadow: var(--shadow); }
+button:active { transform: translateY(1px); }
+button.toggle {
+  background: #f3f4f6; color: #111; border: 1px solid var(--border);
+}
+button[disabled] { opacity: .6; cursor: not-allowed; }
+
+/* Kafelki list */
+.etap, .zasada, .pamiec {
+  margin-bottom: 12px; padding: 12px 14px;
+  border: 1px solid var(--border);
+  background: #fff; position: relative;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.usun {
+  position: absolute; right: 10px; top: 10px;
+  background: #e00; color: #fff; border: none; padding: 5px 8px;
+  border-radius: 6px; cursor: pointer;
+}
+
+/* Wrapy sekcji z możliwością zwijania */
+.wrap { display: block; }
+.wrap.hidden { display: none; }
+
+/* Strony/zakładki */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn .15s ease; }
+@keyframes fadeIn {
+  from { opacity: .8; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Statusy i etykiety */
+.status { margin-top: 6px; font-size: 13px; color: var(--muted); }
+.status.ok { color: var(--ok); }
+.status.warn { color: var(--warn); }
+.status.err { color: var(--err); }
+
+.muted { color: var(--muted); font-size: 12px; }
+
+/* Chat (prawy panel wysuwany) */
+#chat_toggle, #sidebar_toggle {
+  position: fixed; right: 16px; width: 48px; height: 48px; border-radius: 24px;
+  color: #fff; font-size: 20px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,.2);
+  cursor: pointer; z-index: 10010; display: grid; place-items: center;
+}
+#chat_toggle { top: 16px; background: var(--accent); }
+#sidebar_toggle { top: 74px; background: #111827; }
+
+#chat_panel {
+  position: fixed; top: 0; right: 0; height: 100vh; width: 0; background: #fff;
+  border-left: 1px solid var(--border);
+  box-shadow: -4px 0 12px rgba(0,0,0,.1);
+  display: flex; flex-direction: column;
+  transition: width .25s ease; z-index: 10000;
+  min-width: 0; overflow: hidden;
+}
+#chat_panel.open { width: var(--chat-width); min-width: 280px; }
+#chat_header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+#chat_toolbar { display: flex; gap: 6px; }
+#chat_toolbar button {
+  background: #f3f4f6; color: #111; border: 1px solid var(--border);
+  border-radius: 8px; padding: 6px 8px;
+}
+#chat_resizer {
+  position: absolute;
+  right: -6px; /* zmiana z left na right */
+  top: 0;
+  width: 6px;
+  height: 100%;
+  cursor: ew-resize;
+  background: transparent;
+}
+#chat_messages {
+  flex: 1; overflow-y: auto; padding: 12px; background: var(--panel-2);
+}
+#chat_input_row {
+  display: grid; grid-template-columns: 1fr auto; gap: 8px;
+  padding: 12px; border-top: 1px solid var(--border); background: #fff;
+}
+.chat_box { display: flex; flex-direction: column; gap: 8px; }
+.chat_msg {
+  padding: 10px 14px; border-radius: 12px; max-width: 80%;
+  font-size: 14px; line-height: 1.4; white-space: pre-wrap;
+  border: 1px solid #ddd;
+}
+.chat_me { background: #d0e7ff; align-self: flex-end; border-color: #a0c4ff; }
+.chat_ai { background: #f0f0f0; align-self: flex-start; border-color: #ccc; }
+
+/* Lewy panel boczny + resizer */
+#sidebar_panel {
+  position: fixed; top: 0; left: 0; height: 100vh; width: 0; background: #fff;
+  border-right: 1px solid var(--border);
+  box-shadow: 4px 0 12px rgba(0,0,0,.08);
+  display: flex; flex-direction: column;
+  transition: width .25s ease; z-index: 9000;
+  min-width: 0; overflow: hidden;
+}
+#sidebar_panel.open { width: var(--sidebar-width); min-width: 260px; }
+#sidebar_header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-bottom: 1px solid var(--border);
+}
+#sidebar_resizer { position: absolute; right: -6px; top: 0; width: 6px; height: 100%; cursor: ew-resize; }
+#sidebar_content { flex: 1; display: flex; flex-direction: column; padding: 10px; overflow-y: auto; gap: 8px; }
+#sidebar_input { width: 100%; min-height: 60px; margin-bottom: 6px; }
+#sidebar_history { flex: 1; overflow: auto; border: 1px solid var(--border); padding: 10px; background: #fcfcfc; border-radius: 6px; }
+
+/* Toastery i diagnostyka */
+#toast {
+  position: fixed; bottom: 16px; right: 16px;
+  background: #111827; color: #fff; padding: 10px 14px;
+  border-radius: 8px; display: none; z-index: 10020;
+  box-shadow: var(--shadow-strong);
+}
+#toast.show { display: block; animation: toastIn .2s ease; }
+@keyframes toastIn { from { opacity: .6; transform: translateY(4px);} to { opacity: 1; transform: translateY(0);} }
+
+#diag {
+  position: fixed; bottom: 16px; left: 16px;
+  background: #fff; border: 1px solid var(--border);
+  padding: 8px 10px; border-radius: 8px; box-shadow: var(--shadow);
+  font-size: 12px; color: var(--muted); display: none; z-index: 10020;
+}
+
+/* Listy materiałów/źródeł/zadań — drobne wcięcia i akcenty */
+#materialy_list .pamiec,
+#listaZrodel .pamiec,
+#zadaniaAI .pamiec {
+  border-left: 4px solid var(--border-2);
+}
+#materialy_list .pamiec:hover,
+#listaZrodel .pamiec:hover,
+#zadaniaAI .pamiec:hover {
+  border-left-color: var(--accent);
+  box-shadow: var(--shadow-strong);
+}
+
+/* Elementy przeciągania (DnD) dla etapów */
+#etapy { min-height: 40px; padding: 8px; border: 1px dashed var(--border); border-radius: var(--radius); background: #fff; }
+.etap[draggable="true"] { cursor: grab; }
+.etap[draggable="true"]:active { cursor: grabbing; }
+.etap.drag-over { outline: 2px dashed var(--accent); outline-offset: 4px; }
+
+/* Responsywność */
+@media (max-width: 960px) {
+  :root { --chat-width: 90vw; --sidebar-width: 80vw; }
+  nav.tabs { width: 100%; margin-left: 0; }
+}
+@media (max-width: 600px) {
+  header h1 { font-size: 16px; }
+  section { padding: 14px; }
+  .row > * { flex: 1 1 100%; }
+}
+
+/* Motyw ciemny (opcjonalny, aktywacja przez dodanie .dark na body) */
+body.dark {
+  --bg: #0f1116;
+  --panel: #151922;
+  --panel-2: #10131a;
+  --text: #e7eaf0;
+  --muted: #a3adc2;
+  --border: #242a36;
+  --border-2: #2c3342;
+  --accent: #2d7dfb;
+  --accent-2: #205fcc;
+  --ok: #49d17d;
+  --warn: #e6b34a;
+  --err: #ff6b6b;
+}
+body.dark nav.tabs button { background: #1b2030; color: var(--text); border-color: var(--border); }
+body.dark nav.tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+body.dark section { border-left-color: var(--accent); }
+body.dark #chat_messages { background: var(--panel-2); }
+body.dark #sidebar_history { background: #1b2030; }
+
+// === Nawigacja zakładek ===
+document.addEventListener("DOMContentLoaded", () => {
+  const tabs = document.querySelectorAll("#tabs_nav button");
+  const pages = document.querySelectorAll(".page");
+
+  tabs.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabs.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const id = btn.dataset.tab;
+      pages.forEach(p => p.classList.toggle("active", p.id === id));
+    });
+  });
+
+  // === Inicjalizacja ===
+  restoreTrybAI();
+  restoreSectionStates();
+  checkBackendStatus();
+
+  // Automatyczne ładowanie danych
+  pobierzEtapy();
+  pobierzZasady();
+  pobierzPamiec();
+  pobierzMaterialy();
+  pobierzZrodla();
+  pobierzZadaniaAI();
+  zaproponujKrok();
+});
+
+// === Zapamiętywanie stanu sekcji ===
+function restoreSectionStates() {
+  const toggles = document.querySelectorAll("button.toggle");
+  toggles.forEach(btn => {
+    const wrapId = btn.getAttribute("onclick").match(/'([^']+)'/)[1];
+    const state = localStorage.getItem("sec_" + wrapId) || "open";
+    const wrap = document.getElementById(wrapId);
+    if (wrap) {
+      wrap.style.display = state === "open" ? "block" : "none";
+      btn.textContent = state === "open" ? "Zwiń" : "Rozwiń";
+    }
+  });
+}
+
+function toggleSection(wrapId, btnId) {
+  const wrap = document.getElementById(wrapId);
+  const btn = document.getElementById(btnId);
+  const isHidden = wrap.style.display === "none" || getComputedStyle(wrap).display === "none";
+  wrap.style.display = isHidden ? "block" : "none";
+  btn.textContent = isHidden ? "Zwiń" : "Rozwiń";
+  localStorage.setItem("sec_" + wrapId, isHidden ? "open" : "closed");
+}
+
+// === Tryb decyzyjny AI ===
+function zapiszTrybAI() {
+  const val = document.querySelector('input[name="trybAI"]:checked').value;
+  localStorage.setItem("trybAI", val);
+  const status = document.getElementById("status_trybAI");
+  status.textContent = `✅ Zapisano tryb: ${val}`;
+  status.className = "status ok";
+}
+
+function restoreTrybAI() {
+  const val = localStorage.getItem("trybAI") || "manual";
+  const radio = document.querySelector(`input[name="trybAI"][value="${val}"]`);
+  if (radio) radio.checked = true;
+}
+
+// === Toasty ===
+function showToast(msg, type = "ok") {
+  const toast = document.getElementById("toast");
+  toast.textContent = msg;
+  toast.className = "show " + type;
+  setTimeout(() => {
+    toast.className = "";
+    toast.textContent = "";
+  }, 3000);
+}
+
+// === Diagnostyka backendu ===
+function checkBackendStatus() {
+  fetch("http://127.0.0.1:8000/status")
+    .then(res => res.json())
+    .then(data => {
+      const diag = document.getElementById("diag");
+      diag.textContent = `✅ Backend działa (${data.czas})`;
+      diag.style.display = "block";
+    })
+    .catch(() => {
+      const diag = document.getElementById("diag");
+      diag.textContent = "❌ Brak połączenia z backendem";
+      diag.style.display = "block";
+    });
+}
+
+// === Czyszczenie widoków czatu ===
+document.addEventListener("DOMContentLoaded", () => {
+  const clearBtn = document.getElementById("chat_clear");
+  if (clearBtn) {
+    clearBtn.onclick = () => {
+      const chatBox = document.getElementById("chat_messages");
+      if (chatBox) chatBox.innerHTML = "";
+    };
+  }
+});
+
+let chatHistory = [];
+
+function sendChatMessage() {
+  const input = document.getElementById("chat_input");
+  const text = input.value.trim();
+  if (!text) return;
+
+  chatHistory.push({ autor: "Ty", tekst: text });
+  renderChat();
+  input.value = "";
+
+  fetch("http://127.0.0.1:8000/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ wiadomosc: text, historia: chatHistory })
+  })
+  .then(res => res.json())
+  .then(data => {
+    chatHistory.push({ autor: "AI", tekst: data.odpowiedz });
+    renderChat();
+  })
+  .catch(() => {
+    chatHistory.push({ autor: "AI", tekst: "❌ Błąd połączenia." });
+    renderChat();
+  });
+}
+
+function renderChat() {
+  const box = document.getElementById("chat_messages");
+  box.innerHTML = "";
+  chatHistory.forEach(msg => {
+    const div = document.createElement("div");
+    div.className = "chat_msg " + (msg.autor === "Ty" ? "chat_me" : "chat_ai");
+    div.textContent = msg.tekst;
+    box.appendChild(div);
+  });
+  box.scrollTop = box.scrollHeight;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const sendBtn = document.getElementById("chat_send");
+  const input = document.getElementById("chat_input");
+  const clearBtn = document.getElementById("chat_clear");
+
+  if (sendBtn) sendBtn.onclick = sendChatMessage;
+  if (input) {
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendChatMessage();
+      }
+    });
+  }
+  if (clearBtn) {
+    clearBtn.onclick = () => {
+      chatHistory = [];
+      renderChat();
+    };
+  }
+});
+
+// === Rozszerzenia (przygotowane do dalszej rozbudowy) ===
+document.getElementById("chat_attach")?.addEventListener("click", () => {
+  showToast("🔗 Funkcja załączników w przygotowaniu", "warn");
+});
+
+document.getElementById("chat_mic")?.addEventListener("click", () => {
+  showToast("🎤 Mikrofon AI jeszcze nieaktywny", "warn");
+});
+
+document.getElementById("chat_search")?.addEventListener("click", () => {
+  showToast("🔎 Szukanie w historii będzie dostępne później", "warn");
+});
+
+// === Etapy: dodaj, edytuj, zapisz, usuń ===
+
+async function dodajEtap() {
+  const etap = {
+    id: document.getElementById("id_nowy").value,
+    nazwa: document.getElementById("nazwa_nowy").value,
+    opis: document.getElementById("opis_nowy").value,
+    status: document.getElementById("status_nowy").value,
+    priorytet: document.getElementById("priorytet_nowy").value,
+    procent: 0,
+    ai_sprawdzone: false
+  };
+
+  await fetch("http://127.0.0.1:8000/dodaj_etap", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Password": "TwojeSuperHaslo"
+    },
+    body: JSON.stringify(etap)
+  });
+
+  document.getElementById("id_nowy").value = "";
+  document.getElementById("nazwa_nowy").value = "";
+  document.getElementById("opis_nowy").value = "";
+  showToast("✅ Etap dodany");
+  pobierzEtapy();
+}
+
+function edytujEtap(id) {
+  fetch("http://127.0.0.1:8000/etapy")
+    .then(res => res.json())
+    .then(etapy => {
+      const etap = etapy.find(e => e.id === id);
+      if (etap) {
+        document.getElementById("id_edytuj").value = etap.id;
+        document.getElementById("nazwa_edytuj").value = etap.nazwa;
+        document.getElementById("opis_edytuj").value = etap.opis;
+        document.getElementById("status_edytuj").value = etap.status;
+      }
+    });
+}
+
+async function zapiszZmianyEtapu() {
+  const etap = {
+    id: document.getElementById("id_edytuj").value,
+    nazwa: document.getElementById("nazwa_edytuj").value,
+    opis: document.getElementById("opis_edytuj").value,
+    status: document.getElementById("status_edytuj").value
+  };
+  await fetch("http://127.0.0.1:8000/edytuj_etap", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(etap)
+  });
+  showToast("✅ Etap zaktualizowany");
+  pobierzEtapy();
+}
+
+async function zapiszEtap(id) {
+  const div = document.querySelector(`[data-id="${id}"]`);
+  const status = div.querySelector("select[name='status']").value;
+  const priorytet = div.querySelector("select[name='priorytet']").value;
+
+  await fetch("http://127.0.0.1:8000/zapisz_etap", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, status, priorytet })
+  });
+  showToast("✅ Zapisano zmiany");
+  pobierzEtapy();
+}
+
+async function usunEtap(id) {
+  await fetch("http://127.0.0.1:8000/usun_etap", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id })
+  });
+  showToast("🗑 Etap usunięty");
+  pobierzEtapy();
+}
+
+// === Etapy: pobierz i renderuj ===
+
+async function pobierzEtapy() {
+  const res = await fetch("http://127.0.0.1:8000/etapy");
+  const etapy = await res.json();
+  const kontener = document.getElementById("etapy");
+  kontener.innerHTML = "";
+
+  etapy.forEach(e => {
+    const div = document.createElement("div");
+    div.className = "etap";
+    div.setAttribute("draggable", "true");
+    div.setAttribute("data-id", e.id);
+    div.addEventListener("dragstart", handleDragStart);
+    div.addEventListener("dragover", handleDragOver);
+    div.addEventListener("drop", handleDrop);
+
+    let kolor = "🔴", opisStatusu = "Nie zrobione";
+    if (e.status === "done") { kolor = "🟢"; opisStatusu = "Zrobione"; }
+    else if (e.status === "in_progress") { kolor = "🟡"; opisStatusu = "W trakcie"; }
+
+    const procent = e.procent !== undefined ? `${e.procent}%` : "brak danych";
+    const podpunktyHTML = e.podpunkty?.map(p => `<li>${p}</li>`).join("") || "";
+    const kryteriaHTML = e.kryteria_akceptacji?.map(k => `<li>${k}</li>`).join("") || "";
+
+    div.innerHTML = `
+      ${kolor} <strong>${opisStatusu}</strong> (${procent})<br>
+      <strong>${e.id}</strong> – ${e.nazwa}<br>
+      ${e.opis}<br>
+      <ul>${podpunktyHTML}</ul>
+      <ul><em>Kryteria:</em>${kryteriaHTML}</ul>
+      Status: 
+      <select name="status">
+        <option value="todo" ${e.status === "todo" ? "selected" : ""}>🟠 Do zrobienia</option>
+        <option value="in_progress" ${e.status === "in_progress" ? "selected" : ""}>🟡 W trakcie</option>
+        <option value="done" ${e.status === "done" ? "selected" : ""}>🟢 Ukończono</option>
+      </select>
+      | Priorytet: 
+      <select name="priorytet">
+        <option value="niski" ${e.priorytet === "niski" ? "selected" : ""}>⚪ niski</option>
+        <option value="sredni" ${e.priorytet === "sredni" ? "selected" : ""}>🟡 średni</option>
+        <option value="wysoki" ${e.priorytet === "wysoki" ? "selected" : ""}>🔴 wysoki</option>
+      </select><br>
+      <button onclick="usunEtap('${e.id}')">🗑 Usuń</button>
+      <button onclick="edytujEtap('${e.id}')">✏️ Edytuj</button>
+      <button onclick="zapiszEtap('${e.id}')">💾 Zapisz zmiany</button>
+    `;
+    kontener.appendChild(div);
+  });
+}
+
+// === Drag & Drop kolejności etapów ===
+
+let draggedElement = null;
+
+function handleDragStart(event) {
+  draggedElement = event.target.closest(".etap");
+  event.dataTransfer.effectAllowed = "move";
+}
+
+function handleDragOver(event) {
+  event.preventDefault();
+  event.dataTransfer.dropEffect = "move";
+}
+
+function handleDrop(event) {
+  event.preventDefault();
+  const target = event.target.closest(".etap");
+  const kontener = document.getElementById("etapy");
+  if (draggedElement && target && kontener.contains(target)) {
+    kontener.insertBefore(draggedElement, target);
+    draggedElement = null;
+  }
+}
+
+async function zapiszKolejnoscEtapow() {
+  const ids = Array.from(document.querySelectorAll("#etapy .etap")).map(div => div.dataset.id);
+  await fetch("http://127.0.0.1:8000/zapisz_kolejnosc", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ kolejnosc: ids })
+  });
+  showToast("✅ Kolejność etapów zapisana");
+}
+
+// === Dopasowanie etapów z pliku bazowego ===
+
+async function dopasujEtapy() {
+  await fetch("http://127.0.0.1:8000/dopasuj_etapy", { method: "POST" });
+  showToast("🔄 Etapy załadowane z bazy");
+  pobierzEtapy();
+}
+
+// === Materiały: importuj, pobierz, wyświetl ===
+
+async function importujMaterial() {
+  const url = document.getElementById("link_materialu").value;
+  const status = document.getElementById("status_import");
+
+  if (!url.trim()) {
+    status.textContent = "⚠️ Podaj link do strony.";
+    status.className = "status err";
+    return;
+  }
+
+  try {
+    const res = await fetch("http://127.0.0.1:8000/import_material", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url })
+    });
+    const wynik = await res.json();
+    if (wynik.ok) {
+      status.textContent = `✅ Zaimportowano: ${wynik.plik}`;
+      status.className = "status ok";
+      document.getElementById("link_materialu").value = "";
+      pobierzMaterialy();
+    } else {
+      status.textContent = `❌ Błąd: ${wynik.error || "Nie udało się pobrać materiału."}`;
+      status.className = "status err";
+    }
+  } catch {
+    status.textContent = "❌ Błąd połączenia z serwerem.";
+    status.className = "status err";
+  }
+}
+
+async function pobierzMaterialy() {
+  const status = document.getElementById("status_materialy");
+  try {
+    await fetch("http://127.0.0.1:8000/materialy/odswiez", { method: "POST" });
+    const res = await fetch("http://127.0.0.1:8000/materialy");
+    const data = await res.json();
+    const kontener = document.getElementById("materialy_list");
+    kontener.innerHTML = "";
+
+    data.forEach(m => {
+      const div = document.createElement("div");
+      div.className = "pamiec";
+      div.innerHTML = `
+        <strong>${m.nazwa}</strong> (${m.typ})<br>
+        Status: ${m.status} | Tagi: ${m.tagi.join(", ")}<br>
+        <em>${new Date(m.data_dodania).toLocaleString()}</em>
+      `;
+      kontener.appendChild(div);
+    });
+
+    status.textContent = `✅ Załadowano ${data.length} materiałów.`;
+    status.className = "status ok";
+  } catch {
+    status.textContent = "❌ Nie udało się pobrać materiałów.";
+    status.className = "status err";
+  }
+}
+
+// === Źródła: dodaj, usuń, pobierz ===
+
+async function dodajZrodlo() {
+  const url = document.getElementById("link_zrodla").value;
+  if (!url.trim()) return;
+
+  await fetch("http://127.0.0.1:8000/sources/add", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url })
+  });
+
+  document.getElementById("link_zrodla").value = "";
+  showToast("✅ Źródło dodane");
+  pobierzZrodla();
+}
+
+async function pobierzZrodla() {
+  const status = document.getElementById("status_zrodla");
+  try {
+    const res = await fetch("http://127.0.0.1:8000/sources");
+    const lista = await res.json();
+    const kontener = document.getElementById("listaZrodel");
+    kontener.innerHTML = "";
+
+    lista.forEach(z => {
+      const div = document.createElement("div");
+      div.className = "pamiec";
+      div.innerHTML = `
+        <strong>${z.url}</strong><br>
+        📅 ${new Date(z.data_dodania).toLocaleString()}<br>
+        <button onclick="usunZrodlo('${z.id}')">🗑 Usuń</button>
+      `;
+      kontener.appendChild(div);
+    });
+
+    status.textContent = `✅ Załadowano ${lista.length} źródeł.`;
+    status.className = "status ok";
+  } catch {
+    status.textContent = "❌ Nie udało się pobrać źródeł.";
+    status.className = "status err";
+  }
+}
+
+async function usunZrodlo(id) {
+  await fetch("http://127.0.0.1:8000/sources/remove", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id })
+  });
+  showToast("🗑 Źródło usunięte");
+  pobierzZrodla();
+}
+
+// === Pamięć AI ===
+
+async function dodajPamiec() {
+  const wpis = {
+    id: document.getElementById("id_pamiec").value,
+    typ: document.getElementById("typ_pamiec").value,
+    tresc: document.getElementById("tresc_pamiec").value
+  };
+
+  await fetch("http://127.0.0.1:8000/pamiec/dodaj", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(wpis)
+  });
+
+  document.getElementById("id_pamiec").value = "";
+  document.getElementById("typ_pamiec").value = "";
+  document.getElementById("tresc_pamiec").value = "";
+  showToast("✅ Wpis dodany do pamięci");
+  pobierzPamiec();
+}
+
+async function pobierzPamiec() {
+  const kontener = document.getElementById("pamiec");
+  kontener.innerHTML = "";
+  try {
+    const res = await fetch("http://127.0.0.1:8000/pamiec");
+    const dane = await res.json();
+    dane.pamiec.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "pamiec";
+      div.innerHTML = `
+        <strong>${p.id}</strong> (${p.typ})<br>
+        ${p.tresc}
+      `;
+      kontener.appendChild(div);
+    });
+  } catch {
+    kontener.innerHTML = "❌ Nie udało się pobrać pamięci.";
+  }
+}
+
+// === Zasady ===
+
+async function dodajZasade() {
+  const tekst = document.getElementById("tresc_zasady").value;
+  if (!tekst.trim()) return;
+
+  await fetch("http://127.0.0.1:8000/zasady/dodaj", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tresc: tekst })
+  });
+
+  document.getElementById("tresc_zasady").value = "";
+  showToast("✅ Zasada dodana");
+  pobierzZasady();
+}
+
+async function usunZasade(id) {
+  await fetch("http://127.0.0.1:8000/zasady/usun", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id })
+  });
+  showToast("🗑 Zasada usunięta");
+  pobierzZasady();
+}
+
+async function pobierzZasady() {
+  const kontener = document.getElementById("zasady");
+  kontener.innerHTML = "";
+  try {
+    const res = await fetch("http://127.0.0.1:8000/zasady");
+    const lista = await res.json();
+    lista.forEach(z => {
+      const div = document.createElement("div");
+      div.className = "zasada";
+      div.innerHTML = `
+        <strong>${z.id}</strong><br>
+        ${z.tresc}<br>
+        <button onclick="usunZasade('${z.id}')">🗑 Usuń</button>
+      `;
+      kontener.appendChild(div);
+    });
+  } catch {
+    kontener.innerHTML = "❌ Nie udało się pobrać zasad.";
+  }
+}
+
+// === Zadania AI ===
+
+async function pobierzZadaniaAI() {
+  const status = document.getElementById("status_zadania");
+  try {
+    const res = await fetch("http://127.0.0.1:8000/zadania_ai");
+    const lista = await res.json();
+    const kontener = document.getElementById("zadaniaAI");
+    kontener.innerHTML = "";
+
+    lista.forEach(z => {
+      const div = document.createElement("div");
+      div.className = "pamiec";
+      div.innerHTML = `
+        <strong>${z.tytul || z.typ}</strong><br>
+        ${z.opis}<br>
+        <button onclick="zatwierdzTask('${z.id}')">✅ Zatwierdź</button>
+        <button onclick="odrzucTask('${z.id}')">❌ Odrzuć</button>
+      `;
+      kontener.appendChild(div);
+    });
+
+    status.textContent = `✅ Załadowano ${lista.length} zadań.`;
+    status.className = "status ok";
+  } catch {
+    status.textContent = "❌ Nie udało się pobrać zadań.";
+    status.className = "status err";
+  }
+}
+
+async function zatwierdzTask(id) {
+  await fetch("http://127.0.0.1:8000/zadania_ai/zatwierdz", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id })
+  });
+  showToast("✅ Zadanie zatwierdzone");
+  pobierzZadaniaAI();
+}
+
+async function odrzucTask(id) {
+  await fetch("http://127.0.0.1:8000/zadania_ai/odrzuc", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id })
+  });
+  showToast("🗑 Zadanie odrzucone");
+  pobierzZadaniaAI();
+}
+
+// === Sugestia kolejnego kroku ===
+
+async function zaproponujKrok() {
+  const kontener = document.getElementById("sugestia");
+  kontener.innerHTML = "⏳ AI analizuje dane...";
+  try {
+    const res = await fetch("http://127.0.0.1:8000/kolejny_krok");
+    const wynik = await res.json();
+    kontener.innerHTML = `<strong>${wynik.krok}</strong><br><em>${wynik.uzasadnienie}</em>`;
+  } catch {
+    kontener.innerHTML = "❌ Nie udało się pobrać sugestii.";
+  }
+}
+

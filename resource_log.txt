@@ -1,0 +1,1 @@
+with open("resource_log.txt", "a") as f:
